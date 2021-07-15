@@ -5,6 +5,5 @@ class CreateNotes < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    belongs_to :course
   end
 end
