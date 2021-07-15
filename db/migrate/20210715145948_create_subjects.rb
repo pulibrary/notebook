@@ -5,5 +5,6 @@ class CreateSubjects < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+    has_many :courses, :dependent => :destroy
   end
 end
