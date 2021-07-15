@@ -6,7 +6,7 @@ class CreateCourses < ActiveRecord::Migration[6.1]
       t.timestamps
     end
     belongs_to :subject
-    has_many :notes, :dependent => :destroy
-    has_many :homeworks, :dependent => :destroy
+    has_many :notes, dependent: :destroy
+    has_many :homeworks, dependent: :destroy
   end
 end
