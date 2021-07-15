@@ -1,4 +1,14 @@
 <p id="notice"><%= notice %></p>
 
+<p>
+  <strong>Entry:</strong>
+  <%= @homework.entry %>
+</p>
+
+<p>
+  <strong>Due at:</strong>
+  <%= @homework.due_at %>
+</p>
+
 <%= link_to 'Edit', edit_homework_path(@homework) %> |
 <%= link_to 'Back', homeworks_path %>

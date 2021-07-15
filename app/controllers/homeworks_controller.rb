@@ -64,6 +64,6 @@ class HomeworksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def homework_params
-      params.fetch(:homework, {})
+      params.require(:homework).permit(:entry, :due_at)
     end
 end
