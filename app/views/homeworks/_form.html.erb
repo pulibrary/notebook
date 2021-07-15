@@ -1,0 +1,17 @@
+<%= form_with(model: homework) do |form| %>
+  <% if homework.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(homework.errors.count, "error") %> prohibited this homework from being saved:</h2>
+
+      <ul>
+        <% homework.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
