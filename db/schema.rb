@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_15_150437) do
+ActiveRecord::Schema.define(version: 2021_07_15_153116) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "subject_id", null: false
+    t.index ["subject_id"], name: "index_courses_on_subject_id"
   end
 
   create_table "homeworks", force: :cascade do |t|
@@ -23,12 +25,16 @@ ActiveRecord::Schema.define(version: 2021_07_15_150437) do
     t.datetime "due_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "course_id", null: false
+    t.index ["course_id"], name: "index_homeworks_on_course_id"
   end
 
   create_table "notes", force: :cascade do |t|
     t.text "entry"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "course_id", null: false
+    t.index ["course_id"], name: "index_notes_on_course_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -37,4 +43,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_150437) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "courses", "subjects"
+  add_foreign_key "homeworks", "courses"
+  add_foreign_key "notes", "courses"
 end
