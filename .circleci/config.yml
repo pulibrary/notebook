@@ -3,9 +3,9 @@ version: 2.1
 executors:
   notebook-executor:
     docker:
-      - image: circleci/ruby:2.6.6-node-browsers
+      - image: circleci/ruby:3.0.1-node-browsers
         environment:
-          BUNDLER_VERSION: 2.2.6
+          BUNDLER_VERSION: 2.2.23
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
