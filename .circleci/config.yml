@@ -89,3 +89,10 @@ jobs:
           root: '~/notebook'
           paths: '*'
 
+workflows:
+  build_accept:
+    jobs:
+      - build
+      - test:
+         requires:
+          - build
