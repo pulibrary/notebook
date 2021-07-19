@@ -55,4 +55,37 @@ jobs:
       - checkout
       - setup-bundler
 
+  test:
+    executor: notebook-executor
+    steps:
+      - attach_workspace:
+          at: '~/abid'
+      - setup-bundler
+
+      # ensure we have psql which we need for db:schema:load
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y postgresql-client || true
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: |
+            bin/rails db:create
+            bin/rails db:structure:load
+      # Run rspec
+      - run:
+          name: Run rspec
+          command: bundle exec rspec spec/
+
+
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results
+
+      - persist_to_workspace:
+          root: '~/notebook'
+          paths: '*'
 
