@@ -59,7 +59,7 @@ jobs:
     executor: notebook-executor
     steps:
       - attach_workspace:
-          at: '~/abid'
+          at: '~/notebook'
       - setup-bundler
 
       # ensure we have psql which we need for db:schema:load
