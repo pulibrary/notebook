@@ -1,15 +1,58 @@
 version: 2.1
-orbs:
-  ruby: circleci/ruby@0.1.2 
 
-jobs:
-  build:
+executors:
+  notebook-executor:
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
-    executor: ruby/default
+      - image: circleci/ruby:2.6.6-node-browsers
+        environment:
+          BUNDLER_VERSION: 2.2.6
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          RAILS_ENV: test
+      - image: postgres:10
+        environment:
+          POSTGRES_HOST_AUTH_METHOD: trust
+    working_directory: ~/notebook
+
+commands:
+  setup-bundler:
+    description: "Install correct version of bundler and load from cache or bundle install"
     steps:
-      - checkout
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+      # Which version of bundler?
       - run:
           name: Which bundler?
           command: bundle -v
-      - ruby/bundle-install
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - notebook-bundle-v1-{{ checksum "Gemfile.lock" }}
+            - notebook-bundle-v1-
+
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # Store bundle cache
+      - save_cache:
+          key: notebook-bundle-v1-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+jobs:
+  build:
+    executor: notebook-executor
+    steps:
+      - attach_workspace:
+          at: '~/notebook'
+      - checkout
+      - setup-bundler
+
+
