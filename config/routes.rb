@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  resources :homeworks
-  resources :notes
-  resources :courses
-  resources :subjects
+  resources :subjects do
+    resources :courses do
+      resources :notes
+      resources :homeworks
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
