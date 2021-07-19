@@ -55,6 +55,10 @@ jobs:
       - checkout
       - setup-bundler
 
+      - persist_to_workspace:
+          root: '~/notebook'
+          paths: '*'
+
   test:
     executor: notebook-executor
     steps:
