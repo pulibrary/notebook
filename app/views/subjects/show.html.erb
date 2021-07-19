@@ -5,5 +5,15 @@
   <%= @subject.name %>
 </p>
 
+<div id="courses">
+  <% if @subject.courses.present? %>
+    <h1>Courses</h1>
+  <% end %>
+  <%= render @subject.courses %>
+  <h2>Add a Course</h2>
+  <%= render partial: "courses/form", locals: {course: @subject.courses.new} %>
+  <br />
+</div>
+
 <%= link_to 'Edit', edit_subject_path(@subject) %> |
 <%= link_to 'Back', subjects_path %>
