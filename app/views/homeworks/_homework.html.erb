@@ -1,0 +1,10 @@
+<div>
+  <div>
+    <strong> Homework </strong>
+    <%= homework.entry %>
+    <%= homework.due_at %>
+    <%= link_to 'Show', [@subject, @course, homework] %>
+    <%= link_to "Edit", edit_subject_course_homework_path(@subject, @course, homework) %>
+    <%= link_to "Destroy", [@subject, @course, homework], method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+</div>
