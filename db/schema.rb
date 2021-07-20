@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2021_07_15_153116) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "subject_id", null: false
+    t.bigint "subject_id", null: false
     t.index ["subject_id"], name: "index_courses_on_subject_id"
   end
 
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_153116) do
     t.datetime "due_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.index ["course_id"], name: "index_homeworks_on_course_id"
   end
 
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_153116) do
     t.text "entry"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.index ["course_id"], name: "index_notes_on_course_id"
   end
 
