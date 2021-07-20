@@ -1,0 +1,9 @@
+<div>
+  <div>
+    <strong> Note </strong>
+    <%= note.entry %>
+    <%= link_to 'Show', [@subject, @course, note] %>
+    <%= link_to "Edit", edit_subject_course_note_path(@subject, @course, note) %>
+    <%= link_to "Destroy", [@subject, @course, note], method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+</div>
