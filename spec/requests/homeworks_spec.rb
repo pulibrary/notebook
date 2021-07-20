@@ -13,7 +13,7 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/homeworks", type: :request do
-  
+
   # Homework. As you add validations to Homework, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
@@ -24,25 +24,10 @@ RSpec.describe "/homeworks", type: :request do
     skip("Add a hash of attributes invalid for your model")
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Homework.create! valid_attributes
-      get homeworks_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       homework = Homework.create! valid_attributes
       get homework_url(homework)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_homework_url
       expect(response).to be_successful
     end
   end

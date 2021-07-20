@@ -13,7 +13,7 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/notes", type: :request do
-  
+
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
@@ -24,25 +24,10 @@ RSpec.describe "/notes", type: :request do
     skip("Add a hash of attributes invalid for your model")
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Note.create! valid_attributes
-      get notes_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       note = Note.create! valid_attributes
       get note_url(note)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_note_url
       expect(response).to be_successful
     end
   end
