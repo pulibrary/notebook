@@ -10,5 +10,5 @@
   <%= @homework.due_at %>
 </p>
 
-<%= link_to 'Edit', edit_homework_path(@homework) %> |
-<%= link_to 'Back', homeworks_path %>
+<%= link_to 'Edit', edit_subject_course_homework_path(@subject, @course, @homework) %> |
+<%= link_to 'Back', subject_course_path(@subject, @course) %>

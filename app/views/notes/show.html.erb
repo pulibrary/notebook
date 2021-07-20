@@ -5,5 +5,5 @@
   <%= @note.entry %>
 </p>
 
-<%= link_to 'Edit', edit_note_path(@note) %> |
-<%= link_to 'Back', notes_path %>
+<%= link_to 'Edit', edit_subject_course_note_path(@subject, @course, @note) %> |
+<%= link_to 'Back', subject_course_path(@subject, @course) %>

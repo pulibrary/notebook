@@ -5,5 +5,25 @@
   <%= @course.name %>
 </p>
 
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+<div id="notes">
+  <% if @course.notes.present? %>
+    <h1>Notes</h1>
+  <% end %>
+  <%= render @course.notes %>
+  <h2>Add a Note</h2>
+  <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
+  <br />
+</div>
+
+<div id="homeworks">
+  <% if @course.homeworks.present? %>
+    <h1>Homeworks</h1>
+  <% end %>
+  <%= render @course.homeworks %>
+  <h2>Add a Homework Assignment</h2>
+  <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
+  <br />
+</div>
+
+<%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
+<%= link_to 'Back', @subject %>

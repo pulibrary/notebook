@@ -1,57 +1,45 @@
 class NotesController < ApplicationController
   before_action :set_note, only: %i[ show edit update destroy ]
+  before_action :set_course
+  before_action :set_subject
 
-  # GET /notes or /notes.json
-  def index
-    @notes = Note.all
-  end
-
-  # GET /notes/1 or /notes/1.json
   def show
   end
 
-  # GET /notes/new
-  def new
-    @note = Note.new
-  end
-
-  # GET /notes/1/edit
   def edit
   end
 
   # POST /notes or /notes.json
   def create
-    @note = Note.new(note_params)
+    @note = @course.notes.create(note_params)
 
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: "Note was successfully created." }
-        format.json { render :show, status: :created, location: @note }
+        format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully created." }
+        format.json { render :show, status: :created, location: subject_course_path(@subject, @course) }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /notes/1 or /notes/1.json
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: "Note was successfully updated." }
-        format.json { render :show, status: :ok, location: @note }
+        format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully updated." }
+        format.json { render :show, status: :ok, location: subject_course_path(@subject, @course) }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /notes/1 or /notes/1.json
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url, notice: "Note was successfully destroyed." }
+      format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -60,6 +48,14 @@ class NotesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
+    end
+
+    def set_course
+      @course = Course.find(params[:course_id])
+    end
+
+    def set_subject
+      @subject = Subject.find(params[:subject_id])
     end
 
     # Only allow a list of trusted parameters through.
