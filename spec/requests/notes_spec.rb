@@ -16,8 +16,16 @@ RSpec.describe "/notes", type: :request do
 
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
+  let(:subject) {
+    Subject.create!(name: "subject name")
+  }
+
+  let(:course) {
+    Course.create!(name: "course name", subject: subject)
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { entry: "note entry", course: course }
   }
 
   let(:invalid_attributes) {
@@ -27,7 +35,7 @@ RSpec.describe "/notes", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       note = Note.create! valid_attributes
-      get note_url(note)
+      get subject_course_note_url(subject, course, note)
       expect(response).to be_successful
     end
   end
@@ -35,7 +43,7 @@ RSpec.describe "/notes", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       note = Note.create! valid_attributes
-      get edit_note_url(note)
+      get edit_subject_course_note_url(subject, course, note)
       expect(response).to be_successful
     end
   end
@@ -44,24 +52,26 @@ RSpec.describe "/notes", type: :request do
     context "with valid parameters" do
       it "creates a new Note" do
         expect {
-          post notes_url, params: { note: valid_attributes }
+          post subject_course_notes_url(subject, course), params: { note: valid_attributes }
         }.to change(Note, :count).by(1)
       end
 
-      it "redirects to the created note" do
-        post notes_url, params: { note: valid_attributes }
-        expect(response).to redirect_to(note_url(Note.last))
+      it "redirects to the course page" do
+        post subject_course_notes_url(subject, course), params: { note: valid_attributes }
+        expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new Note" do
+        skip("Add invalid_attributes")
         expect {
           post notes_url, params: { note: invalid_attributes }
         }.to change(Note, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
+        skip("Add invalid_attributes")
         post notes_url, params: { note: invalid_attributes }
         expect(response).to be_successful
       end
@@ -71,26 +81,27 @@ RSpec.describe "/notes", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { entry: "note entry", course: course }
       }
 
       it "updates the requested note" do
         note = Note.create! valid_attributes
-        patch note_url(note), params: { note: new_attributes }
+        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the note" do
+      it "redirects to the course page" do
         note = Note.create! valid_attributes
-        patch note_url(note), params: { note: new_attributes }
+        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
-        expect(response).to redirect_to(note_url(note))
+        expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
+        skip("Add invalid_attributes")
         note = Note.create! valid_attributes
         patch note_url(note), params: { note: invalid_attributes }
         expect(response).to be_successful
@@ -102,14 +113,14 @@ RSpec.describe "/notes", type: :request do
     it "destroys the requested note" do
       note = Note.create! valid_attributes
       expect {
-        delete note_url(note)
+        delete subject_course_note_url(subject, course, note)
       }.to change(Note, :count).by(-1)
     end
 
     it "redirects to the notes list" do
       note = Note.create! valid_attributes
-      delete note_url(note)
-      expect(response).to redirect_to(notes_url)
+      delete subject_course_note_url(subject, course, note)
+      expect(response).to redirect_to(subject_course_url(subject, course))
     end
   end
 end
