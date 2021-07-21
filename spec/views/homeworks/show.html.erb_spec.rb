@@ -2,7 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "homeworks/show", type: :view do
   before(:each) do
-    @homework = assign(:homework, Homework.create!(
+    @subject = assign(:subject, Subject.create!(
+      name: "SubjectName"
+    ))
+    @course = assign(:course, @subject.courses.create!(
+      name: "CourseName"
+    ))
+    @homework = assign(:homework, @course.homeworks.create!(
       entry: "MyText"
     ))
   end
