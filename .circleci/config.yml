@@ -55,6 +55,22 @@ jobs:
       - checkout
       - setup-bundler
 
+      # Only necessary if app uses webpacker or yarn in some other way
+      - restore_cache:
+          keys:
+            - notebook-yarn-v1-{{ checksum "yarn.lock" }}
+            - notebook-yarn-v1-
+
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: notebook-yarn-v1-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
       - persist_to_workspace:
           root: '~/notebook'
           paths: '*'
@@ -79,11 +95,11 @@ jobs:
           command: |
             bin/rails db:create
             bin/rails db:structure:load
+
       # Run rspec
       - run:
           name: Run rspec
           command: bundle exec rspec spec/
-
 
       # Save test results for timing analysis
       - store_test_results:
