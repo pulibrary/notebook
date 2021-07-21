@@ -2,7 +2,13 @@ require 'rails_helper'
 
 RSpec.describe "notes/show", type: :view do
   before(:each) do
-    @note = assign(:note, Note.create!(
+    @subject = assign(:subject, Subject.create!(
+      name: "SubjectName"
+    ))
+    @course = assign(:course, @subject.courses.create!(
+      name: "CourseName"
+    ))
+    @note = assign(:note, @course.notes.create!(
       entry: "MyText"
     ))
   end
