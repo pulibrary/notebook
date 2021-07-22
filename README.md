@@ -1,24 +1,26 @@
-# README
+# README [![CircleCI](https://circleci.com/gh/pulibrary/notebook/tree/testing.svg?style=svg)](https://circleci.com/gh/pulibrary/notebook/tree/testing)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Simple notebook app using Ruby on Rails and PostgreSQL for final checkpoint project.
 
-Things you may want to cover:
+### Development
 
-* Ruby version
+#### Dependencies Setup
+* Install Lando from https://github.com/lando/lando/releases (at least 3.x)
 
-* System dependencies
+```sh
+bundle install
+```
 
-* Configuration
+#### Starting / stopping services
+We use lando to run services required for both test and development environments.
 
-* Database creation
+Start and initialize database services with `rake servers:start`
 
-* Database initialization
+To stop database services: `rake servers:stop` or `lando stop`
 
-* How to run the test suite
+#### Run tests
+`bundle exec rspec`
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#### Start development server
+- `bundle exec rails s`
+- Access application at http://localhost:3000/subjects
