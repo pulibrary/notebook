@@ -17,7 +17,7 @@ class HomeworksController < ApplicationController
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Homework was successfully created." }
         format.json { render :show, status: :created, location: subject_course_path(@subject, @course) }
       else
-        format.html { render :new }
+        format.html { redirect_to subject_course_path(@subject, @course) }
         format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
