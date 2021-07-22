@@ -13,15 +13,15 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/subjects", type: :request do
-  
+
   # Subject. As you add validations to Subject, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { name: "subject name" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: nil }
   }
 
   describe "GET /index" do
@@ -86,7 +86,7 @@ RSpec.describe "/subjects", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: "new subject name" }
       }
 
       it "updates the requested subject" do
