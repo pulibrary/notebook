@@ -29,7 +29,7 @@ RSpec.describe "/notes", type: :request do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { entry: nil, course: course }
   }
 
   describe "GET /show" do
@@ -64,15 +64,13 @@ RSpec.describe "/notes", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new Note" do
-        skip("Add invalid_attributes")
         expect {
-          post notes_url, params: { note: invalid_attributes }
+          post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
         }.to change(Note, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        skip("Add invalid_attributes")
-        post notes_url, params: { note: invalid_attributes }
+      it "renders a successful response (i.e. to display the course page)" do
+        post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -88,7 +86,7 @@ RSpec.describe "/notes", type: :request do
         note = Note.create! valid_attributes
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
-        skip("Add assertions for updated state")
+        expect(note[:entry]).to eq(new_attributes[:entry])
       end
 
       it "redirects to the course page" do
@@ -101,9 +99,8 @@ RSpec.describe "/notes", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        skip("Add invalid_attributes")
         note = Note.create! valid_attributes
-        patch note_url(note), params: { note: invalid_attributes }
+        patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
         expect(response).to be_successful
       end
     end

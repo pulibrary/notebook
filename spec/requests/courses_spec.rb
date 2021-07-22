@@ -25,7 +25,7 @@ RSpec.describe "/courses", type: :request do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: nil, subject: nil }
   }
 
   describe "GET /show" do
@@ -60,15 +60,13 @@ RSpec.describe "/courses", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new Course" do
-        skip("Add invalid_attributes")
         expect {
-          post courses_url, params: { course: invalid_attributes }
+          post subject_courses_url(subject), params: { course: invalid_attributes }
         }.to change(Course, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        skip("Add invalid_attributes")
-        post courses_url, params: { course: invalid_attributes }
+      it "renders a successful response (i.e. to display the subject page)" do
+        post subject_courses_url(subject), params: { course: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -84,7 +82,7 @@ RSpec.describe "/courses", type: :request do
         course = Course.create! valid_attributes
         patch subject_course_url(subject, course), params: { course: new_attributes }
         course.reload
-        skip("Add assertions for updated state")
+        expect(course[:name]).to eq(new_attributes[:name])
       end
 
       it "redirects to the courses list" do
@@ -97,9 +95,8 @@ RSpec.describe "/courses", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        skip("Add invalid_attributes")
         course = Course.create! valid_attributes
-        patch course_url(course), params: { course: invalid_attributes }
+        patch subject_course_url(subject, course), params: { course: invalid_attributes }
         expect(response).to be_successful
       end
     end

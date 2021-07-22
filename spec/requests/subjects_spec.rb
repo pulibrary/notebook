@@ -93,7 +93,7 @@ RSpec.describe "/subjects", type: :request do
         subject = Subject.create! valid_attributes
         patch subject_url(subject), params: { subject: new_attributes }
         subject.reload
-        skip("Add assertions for updated state")
+        expect(subject[:name]).to eq(new_attributes[:name])
       end
 
       it "redirects to the subject" do
