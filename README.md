@@ -7,9 +7,7 @@ Simple notebook app using Ruby on Rails and PostgreSQL for final checkpoint proj
 #### Dependencies Setup
 * Install Lando from https://github.com/lando/lando/releases (at least 3.x)
 
-```sh
-bundle install
-```
+`bundle install`
 
 #### Starting / stopping services
 We use lando to run services required for both test and development environments.
