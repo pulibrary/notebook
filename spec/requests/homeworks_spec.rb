@@ -71,7 +71,7 @@ RSpec.describe "/homeworks", type: :request do
 
       it "renders a successful response (i.e. to display the course page)" do
         post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
   end

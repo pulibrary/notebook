@@ -61,13 +61,13 @@ RSpec.describe "/courses", type: :request do
     context "with invalid parameters" do
       it "does not create a new Course" do
         expect {
-          post subject_courses_url(subject), params: { course: invalid_attributes }
+          post subject_courses_url(subject), params: { course: invalid_attributes, subject: subject }
         }.to change(Course, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the subject page)" do
         post subject_courses_url(subject), params: { course: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to redirect_to(subject)
       end
     end
   end
