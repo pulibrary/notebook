@@ -28,7 +28,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to @subject, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
@@ -41,7 +41,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to @subject, notice: "Subject was successfully updated." }
         format.json { render :show, status: :ok, location: @subject }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end

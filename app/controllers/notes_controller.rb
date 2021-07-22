@@ -17,7 +17,7 @@ class NotesController < ApplicationController
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully created." }
         format.json { render :show, status: :created, location: subject_course_path(@subject, @course) }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new }
         format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
@@ -29,7 +29,7 @@ class NotesController < ApplicationController
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully updated." }
         format.json { render :show, status: :ok, location: subject_course_path(@subject, @course) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit }
         format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
