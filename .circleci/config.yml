@@ -113,6 +113,20 @@ jobs:
           root: '~/notebook'
           paths: '*'
 
+  coverage_report:
+    executor: notebook-executor
+    steps:
+      - attach_workspace:
+          at: '~/notebook'
+      - run: gem install simplecov
+      - run:
+          name: Inspect coverage report
+          command: |
+            RAILS_ENV=test ruby ./scripts/report_coverage.rb
+      - store_artifacts:
+          path: ~/notebook/coverage
+          destination: coverage
+
 workflows:
   build_accept:
     jobs:
@@ -120,3 +134,6 @@ workflows:
       - test:
          requires:
           - build
+      - coverage_report:
+         requires:
+          - test
