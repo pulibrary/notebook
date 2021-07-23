@@ -1,2 +1,15 @@
+require: rubocop-rspec
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'config/environments/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+
+Style/Documentation:
+  Enabled: false
