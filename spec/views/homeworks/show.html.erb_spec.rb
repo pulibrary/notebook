@@ -9,7 +9,8 @@ RSpec.describe "homeworks/show", type: :view do
       name: "CourseName"
     ))
     @homework = assign(:homework, @course.homeworks.create!(
-      entry: "MyText"
+      entry: "MyText",
+      due_at: DateTime.now
     ))
   end
 

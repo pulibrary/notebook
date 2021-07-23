@@ -29,7 +29,7 @@ RSpec.describe "/homeworks", type: :request do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { entry: nil, due_at: nil, course: course }
   }
 
   describe "GET /show" do
@@ -64,16 +64,14 @@ RSpec.describe "/homeworks", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new Homework" do
-        skip("Add invalid_attributes")
         expect {
-          post homeworks_url, params: { homework: invalid_attributes }
+          post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
         }.to change(Homework, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        skip("Add invalid_attributes")
-        post homeworks_url, params: { homework: invalid_attributes }
-        expect(response).to be_successful
+      it "renders a successful response (i.e. to display the course page)" do
+        post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
+        expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
   end
@@ -81,14 +79,15 @@ RSpec.describe "/homeworks", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        { entry: "new homework entry", due_at: DateTime.now, course: course }
+        { entry: "new homework entry", due_at: DateTime.new(2022,01,3.5), course: course }
       }
 
       it "updates the requested homework" do
         homework = Homework.create! valid_attributes
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
-        skip("Add assertions for updated state")
+        expect(homework[:entry]).to eq(new_attributes[:entry])
+        expect(homework[:due_at]).to eq(new_attributes[:due_at])
       end
 
       it "redirects to the course page" do
@@ -101,9 +100,8 @@ RSpec.describe "/homeworks", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        skip("Add invalid_attributes")
         homework = Homework.create! valid_attributes
-        patch homework_url(homework), params: { homework: invalid_attributes }
+        patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
         expect(response).to be_successful
       end
     end
