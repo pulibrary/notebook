@@ -4,6 +4,7 @@ Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 AllCops:
+  NewCops: disable
   Exclude:
     - 'bin/*'
     - 'config/environments/**/*'
@@ -13,3 +14,26 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/controllers/homeworks_controller.rb'
+    - 'app/controllers/notes_controller.rb'
+
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/helpers/*'
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/requests/homeworks_spec.rb'
+
+RSpec/ExampleLength:
+  Max: 7
