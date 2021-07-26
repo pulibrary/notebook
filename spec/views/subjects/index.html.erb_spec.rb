@@ -1,15 +1,17 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe "subjects/index", type: :view do
-  before(:each) do
+  before do
     assign(:subjects, [
-      Subject.create!(
-        name: "Name"
-      ),
-      Subject.create!(
-        name: "Name"
-      )
-    ])
+             Subject.create!(
+               name: "Name"
+             ),
+             Subject.create!(
+               name: "Name"
+             )
+           ])
   end
 
   it "renders a list of subjects" do

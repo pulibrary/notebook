@@ -27,7 +27,9 @@ class SimpleCovHelper
     min_coverage = SimpleCov.minimum_coverage
     min_coverage = min_coverage[:line].to_f if min_coverage.is_a? Hash
     return unless covered_percent < min_coverage
-    $stderr.printf("Coverage (%.2f%%) is below the expected minimum coverage (%.2f%%).\n", covered_percent, SimpleCov.minimum_coverage[:line])
+
+    $stderr.printf("Coverage (%<covered>.2f%%) is below the expected minimum coverage (%<min>.2f%%).\n",
+                   covered: covered_percent, min: SimpleCov.minimum_coverage[:line])
     Kernel.exit SimpleCov::ExitCodes::MINIMUM_COVERAGE
   end
 end

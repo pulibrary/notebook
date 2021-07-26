@@ -127,11 +127,25 @@ jobs:
           path: ~/notebook/coverage
           destination: coverage
 
+  lint:
+    executor: notebook-executor
+    steps:
+      - attach_workspace:
+          at: '~/notebook'
+      - setup-bundler
+
+      - run:
+          name: Lint using RuboCop
+          command: bundle exec rubocop --disable-pending-cops
+
 workflows:
   build_accept:
     jobs:
       - build
       - test:
+         requires:
+          - build
+      - lint:
          requires:
           - build
       - coverage_report:

@@ -1,23 +1,24 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe "notes/edit", type: :view do
-  before(:each) do
-    @subject = assign(:subject, Subject.create!(
-      name: "SubjectName"
-    ))
-    @course = assign(:course, @subject.courses.create!(
-      name: "CourseName"
-    ))
-    @note = assign(:note, @course.notes.create!(
-      entry: "MyText"
-    ))
+  let!(:subject) do
+    Subject.create!(name: "SubjectName")
+  end
+  let!(:course) do
+    subject.courses.create!(name: "CourseName")
+  end
+  let!(:note) do
+    course.notes.create!(entry: "MyText")
   end
 
   it "renders the edit note form" do
+    assign(:subject, subject)
+    assign(:course, course)
+    assign(:note, note)
     render
-
-    assert_select "form[action=?][method=?]", subject_course_note_path(@subject, @course, @note), "post" do
-
+    assert_select "form[action=?][method=?]", subject_course_note_path(subject, course, note), "post" do
       assert_select "textarea[name=?]", "note[entry]"
     end
   end

@@ -1,13 +1,13 @@
+# frozen_string_literal: true
+
 class NotesController < ApplicationController
-  before_action :set_note, only: %i[ show edit update destroy ]
+  before_action :set_note, only: %i[show edit update destroy]
   before_action :set_course
   before_action :set_subject
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @note = @course.notes.create(note_params)
@@ -44,21 +44,22 @@ class NotesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_note
-      @note = Note.find(params[:id])
-    end
 
-    def set_course
-      @course = Course.find(params[:course_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_note
+    @note = Note.find(params[:id])
+  end
 
-    def set_subject
-      @subject = Subject.find(params[:subject_id])
-    end
+  def set_course
+    @course = Course.find(params[:course_id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def note_params
-      params.require(:note).permit(:entry)
-    end
+  def set_subject
+    @subject = Subject.find(params[:subject_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def note_params
+    params.require(:note).permit(:entry)
+  end
 end

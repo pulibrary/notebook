@@ -1,13 +1,14 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe "subjects/show", type: :view do
-  before(:each) do
-    @subject = assign(:subject, Subject.create!(
-      name: "Name"
-    ))
+  let!(:subject) do
+    Subject.create!(name: "SubjectName")
   end
 
   it "renders attributes in <p>" do
+    assign(:subject, subject)
     render
     expect(rendered).to match(/Name/)
   end
