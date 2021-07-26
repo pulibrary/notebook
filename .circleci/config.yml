@@ -146,7 +146,7 @@ workflows:
          requires:
           - build
       - lint:
-        requires:
+         requires:
           - build
       - coverage_report:
          requires:
