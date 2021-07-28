@@ -30,7 +30,7 @@
                         <div class="sb-sidenav-menu-heading">Subjects</div>
                         <% @subjects.each do |subject| %>
                             <a class="nav-link" href="/subjects/<%= subject.id %>">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-archive"></i></div>
                                 <%= subject.name %>
                             </a>
                         <% end %>
@@ -38,7 +38,7 @@
                         <% @subjects.each do |subject| %>
                             <% subject.courses.each do |course| %>
                                 <a class="nav-link" href="/subjects/<%= subject.id %>/courses/<%= course.id %>">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                     <%= course.name %>
                                 </a>
                             <% end %>
