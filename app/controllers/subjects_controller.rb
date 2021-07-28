@@ -2,6 +2,7 @@
 
 class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[show edit update destroy]
+  before_action :set_subjects
 
   # GET /subjects or /subjects.json
   def index
@@ -61,6 +62,10 @@ class SubjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_subject
     @subject = Subject.find(params[:id])
+  end
+
+  def set_subjects
+    @subjects = Subject.all
   end
 
   # Only allow a list of trusted parameters through.
