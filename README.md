@@ -1,4 +1,4 @@
-# README [![CircleCI](https://circleci.com/gh/pulibrary/notebook/tree/frontend.svg?style=svg)](https://circleci.com/gh/pulibrary/notebook/tree/frontend)
+# README [![CircleCI](https://circleci.com/gh/pulibrary/notebook/tree/main.svg?style=svg)](https://circleci.com/gh/pulibrary/notebook/tree/main)
 
 Simple notebook app using Ruby on Rails and PostgreSQL for final checkpoint project.
 
