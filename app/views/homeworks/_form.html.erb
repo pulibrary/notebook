@@ -1,16 +1,25 @@
 <%= form_with(model: [@subject, @course, homework]) do |form| %>
+  <tr>
+    <td class="field">
+      <%= form.label :entry %>
+    </td>
 
-  <div class="field">
-    <%= form.label :entry %>
-    <%= form.text_area :entry %>
-  </div>
+    <td class="field">
+      <%= form.label :due_at %>
+    </td>
+  </tr>
 
-  <div class="field">
-    <%= form.label :due_at %>
-    <%= form.datetime_select :due_at %>
-  </div>
+  <tr>
+    <td class="field">
+      <%= form.text_area :entry %>
+    </td>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <td class="field">
+      <%= form.datetime_select :due_at %>
+    </td>
+
+    <td class="actions">
+      <%= form.submit %>
+    </td>
+  </tr>
 <% end %>

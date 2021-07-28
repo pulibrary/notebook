@@ -1,10 +1,10 @@
 <%= form_with(model: [@subject, course]) do |form| %>
-  <div class="field">
+  <td class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
-  </div>
+  </td>
 
-  <div class="actions">
+  <td class="actions">
     <%= form.submit %>
-  </div>
+  </td>
 <% end %>

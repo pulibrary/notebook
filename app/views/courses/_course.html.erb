@@ -1,8 +1,6 @@
-<div>
-  <div>
-  <strong><%= course.name %></strong>
-    <%= link_to 'Show', [@subject, course] %>
-    <%= link_to "Edit", edit_subject_course_path(@subject, course) %>
-    <%= link_to "Destroy", [@subject, course], method: :delete, data: { confirm: 'Are you sure?' } %>
-  </div>
-</div>
+<tr>
+  <td><%= course.name %></td>
+  <td><%= link_to 'Show', [@subject, course] %></td>
+  <td><%= link_to "Edit", edit_subject_course_path(@subject, course) %></td>
+  <td><%= link_to "Destroy", [@subject, course], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

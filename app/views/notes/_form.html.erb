@@ -1,11 +1,17 @@
 <%= form_with(model: [@subject, @course, note]) do |form| %>
+  <tr>
+    <td class="field">
+      <%= form.label :entry %>
+    </td>
+  </tr>
 
-  <div class="field">
-    <%= form.label :entry %>
-    <%= form.text_area :entry %>
-  </div>
+  <tr>
+    <td class="field">
+      <%= form.text_area :entry %>
+    </td>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <td class="actions">
+      <%= form.submit %>
+    </td>
+  </tr>
 <% end %>
