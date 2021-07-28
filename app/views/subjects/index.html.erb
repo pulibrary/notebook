@@ -25,5 +25,18 @@
 
   <br>
 
-  <%= link_to 'New Subject', new_subject_path %>
+  <table>
+    <thead>
+      <tr>
+        <th>Add a subject</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <%= render partial: "subjects/form", locals: {subject: Subject.new} %>
+        </tr>
+    </tbody>
+  </table>
 </div>
