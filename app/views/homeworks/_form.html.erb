@@ -3,7 +3,15 @@
     <td class="field">
       <%= form.label :entry %>
     </td>
+  </tr>
 
+  <tr>
+    <td class="field">
+      <%= form.text_area :entry %>
+    </td>
+  </tr>
+
+  <tr>
     <td class="field">
       <%= form.label :due_at %>
     </td>
@@ -11,13 +19,11 @@
 
   <tr>
     <td class="field">
-      <%= form.text_area :entry %>
-    </td>
-
-    <td class="field">
       <%= form.datetime_select :due_at %>
     </td>
+  </tr>
 
+  <tr>
     <td class="actions">
       <%= form.submit %>
     </td>
