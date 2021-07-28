@@ -1,6 +1,8 @@
-<h1>Editing Homework</h1>
+<div class="container-fluid px-4">
+  <h1>Editing Homework</h1>
 
-<%= render 'form', homework: @homework %>
+  <%= render 'form', homework: @homework %>
 
-<%= link_to 'Show', subject_course_homework_path(@subject, @course, @homework) %> |
-<%= link_to 'Back', subject_course_path(@subject, @course) %>
+  <%= link_to 'Show', subject_course_homework_path(@subject, @course, @homework) %> |
+  <%= link_to 'Back', subject_course_path(@subject, @course) %>
+</div>

@@ -1,9 +1,11 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid px-4">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Entry:</strong>
-  <%= @note.entry %>
-</p>
+  <p>
+    <strong>Entry:</strong>
+    <%= @note.entry %>
+  </p>
 
-<%= link_to 'Edit', edit_subject_course_note_path(@subject, @course, @note) %> |
-<%= link_to 'Back', subject_course_path(@subject, @course) %>
+  <%= link_to 'Edit', edit_subject_course_note_path(@subject, @course, @note) %> |
+  <%= link_to 'Back', subject_course_path(@subject, @course) %>
+</div>

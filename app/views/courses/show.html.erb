@@ -1,29 +1,42 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid px-4">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @course.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @course.name %>
+  </p>
+  <div class="row">
+      <div class="col-xl-6">
+          <div class="card mb-4">
+              <div class="card-header">
+                  Notes
+              </div>
+              <div class="card-body">
+                  <%= render @course.notes %>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-6">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <i class="fas fa-chart-bar me-1"></i>
+                  Homework Assignments
+              </div>
+              <div class="card-body">
+                  <%= render @course.homeworks %>
+              </div>
+          </div>
+      </div>
+  </div>
 
-<div id="notes">
-  <% if @course.notes.present? %>
-    <h1>Notes</h1>
-  <% end %>
-  <%= render @course.notes %>
   <h2>Add a Note</h2>
   <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
   <br />
-</div>
 
-<div id="homeworks">
-  <% if @course.homeworks.present? %>
-    <h1>Homeworks</h1>
-  <% end %>
-  <%= render @course.homeworks %>
   <h2>Add a Homework Assignment</h2>
   <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
   <br />
-</div>
 
-<%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
-<%= link_to 'Back', @subject %>
+  <%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
+  <%= link_to 'Back', @subject %>
+</div>
