@@ -1,6 +1,8 @@
-<h1>Editing Note</h1>
+<div class="container-fluid px-4">
+  <h1>Editing Note</h1>
 
-<%= render 'form', note: @note %>
+  <%= render 'form', note: @note %>
 
-<%= link_to 'Show', subject_course_note_path(@subject, @course, @note) %> |
-<%= link_to 'Back', subject_course_path(@subject, @course) %>
+  <%= link_to 'Show', subject_course_note_path(@subject, @course, @note) %> |
+  <%= link_to 'Back', subject_course_path(@subject, @course) %>
+</div>

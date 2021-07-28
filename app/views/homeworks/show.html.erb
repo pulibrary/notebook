@@ -1,14 +1,16 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid px-4">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Entry:</strong>
-  <%= @homework.entry %>
-</p>
+  <p>
+    <strong>Entry:</strong>
+    <%= @homework.entry %>
+  </p>
 
-<p>
-  <strong>Due at:</strong>
-  <%= @homework.due_at %>
-</p>
+  <p>
+    <strong>Due at:</strong>
+    <%= @homework.due_at %>
+  </p>
 
-<%= link_to 'Edit', edit_subject_course_homework_path(@subject, @course, @homework) %> |
-<%= link_to 'Back', subject_course_path(@subject, @course) %>
+  <%= link_to 'Edit', edit_subject_course_homework_path(@subject, @course, @homework) %> |
+  <%= link_to 'Back', subject_course_path(@subject, @course) %>
+</div>
