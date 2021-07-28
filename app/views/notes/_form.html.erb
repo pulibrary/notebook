@@ -1,19 +1,13 @@
 <%= form_with(model: [@subject, @course, note]) do |form| %>
-  <tr>
-    <td class="field">
+  <div class="field-label col-xl-6">
       <%= form.label :entry %>
-    </td>
-  </tr>
+  </div>
 
-  <tr>
-    <td class="field">
+  <div class="field col-xl-6">
       <%= form.text_area :entry %>
-    </td>
-  </tr>
+  </div>
 
-  <tr>
-    <td class="actions">
+  <div class="actions col-xl-6">
       <%= form.submit %>
-    </td>
-  </tr>
+  </div>
 <% end %>

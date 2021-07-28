@@ -7,6 +7,7 @@
       <div class="col-xl-6">
           <div class="card mb-4">
               <div class="card-header">
+                  <i class="fas fa-align-left me-1"></i>
                   Notes
               </div>
               <div class="card-body">
@@ -27,35 +28,28 @@
       </div>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Add a note</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-        <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
-    </tbody>
-  </table>
-
-  <br />
-
-  <table>
-    <thead>
-      <tr>
-        <th>Add a homework assignment</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-        <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
-    </tbody>
-  </table>
-
-  <br />
+  <div class="row">
+      <div class="col-xl-6">
+          <div class="mb-4">
+              <div>
+                  <strong>Add a note</strong>
+              </div>
+              <div>
+                <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-6">
+          <div class="mb-4">
+              <div>
+                  <strong>Add a homework assignment</strong>
+              </div>
+              <div>
+                <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
+              </div>
+          </div>
+      </div>
+  </div>
 
   <%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
   <%= link_to 'Back', @subject %>
