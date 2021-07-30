@@ -1,9 +1,9 @@
-<div>
-  <div>
-    <strong> Note </strong>
-    <%= note.entry %>
-    <%= link_to 'Show', [@subject, @course, note] %>
-    <%= link_to "Edit", edit_subject_course_note_path(@subject, @course, note) %>
-    <%= link_to "Destroy", [@subject, @course, note], method: :delete, data: { confirm: 'Are you sure?' } %>
+<div class="card my-2 col-xl-3" style="width: 18rem; background-color: #FFF59D;">
+  <div class="card-body">
+    <div><%= note.entry %></div>
+  </div>
+  <div class="card-text flex-container-3 mb-3 mt-2">
+    <div><%= button_to "Edit", edit_subject_course_note_path(@subject, @course, note), :method => "get", class: "btn btn-outline-dark mx-3" %></div>
+    <div><%= button_to "Destroy", [@subject, @course, note], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-dark" %></div>
   </div>
 </div>

@@ -1,6 +1,10 @@
-<tr>
-  <td><%= course.name %></td>
-  <td><%= link_to 'Show', [@subject, course] %></td>
-  <td><%= link_to "Edit", edit_subject_course_path(@subject, course) %></td>
-  <td><%= link_to "Destroy", [@subject, course], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-</tr>
+<div class="card my-2" style="width: 18rem; background-color: #C5E1A5;">
+  <div class="card-body mx-auto">
+    <h3 class="m-auto"><%= course.name %></h3>
+  </div>
+  <div class="card-text flex-container-1 mb-3 mt-2 mx-auto">
+    <div><%= button_to "Show", [@subject, course], :method => "get", class: "btn btn-outline-dark" %></div>
+    <div><%= button_to "Edit", edit_subject_course_path(@subject, course), :method => "get", class: "btn btn-outline-dark mx-3" %></div>
+    <div><%= button_to "Destroy", [@subject, course], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-dark" %></div>
+  </div>
+</div>
