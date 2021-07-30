@@ -6,8 +6,6 @@ class NotesController < ApplicationController
   before_action :set_subject
   before_action :set_subjects
 
-  def show; end
-
   def edit; end
 
   def create

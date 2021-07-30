@@ -33,14 +33,6 @@ RSpec.describe "/notes", type: :request do
     { entry: nil, course: course }
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      note = Note.create! valid_attributes
-      get subject_course_note_url(subject, course, note)
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /edit" do
     it "render a successful response" do
       note = Note.create! valid_attributes
