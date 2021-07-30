@@ -1,4 +1,26 @@
 @charset "UTF-8";
+
+.flex-container-1 {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.flex-container-2 {
+  display: flex;
+  flex-flow: column wrap;
+  margin-right: 25px;
+}
+
+.flex-container-3 {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.actions {
+  margin-top: auto;
+}
+
 /*!
 * Start Bootstrap - SB Admin v7.0.2 (https://startbootstrap.com/template/sb-admin)
 * Copyright 2013-2021 Start Bootstrap
