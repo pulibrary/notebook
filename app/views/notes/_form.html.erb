@@ -1,13 +1,16 @@
-<%= form_with(model: [@subject, @course, note]) do |form| %>
-  <div class="field-label col-xl-6">
+<%= form_with(model: [@subject, @course, note], :html => {:class => 'card-body flex-container-2'}) do |form| %>
+  <div><h5 class="card-title">Add a note</h5></div>
+
+  <div class="field-label">
       <%= form.label :entry %>
   </div>
 
-  <div class="field col-xl-6">
-      <%= form.text_area :entry %>
+  <div class="field">
+      <%= form.text_area :entry, :class => "form-control" %>
   </div>
+  <br />
 
-  <div class="actions col-xl-6">
-      <%= form.submit %>
+  <div class="actions">
+      <%= form.submit :class => "btn btn-primary" %>
   </div>
 <% end %>

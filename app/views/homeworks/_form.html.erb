@@ -1,21 +1,25 @@
-<%= form_with(model: [@subject, @course, homework]) do |form| %>
-  <div class="field-label col-xl-6">
+<%= form_with(model: [@subject, @course, homework], :html => {:class => 'card-body flex-container-2'}) do |form| %>
+  <div><h5 class="card-title">Add a homework assignment</h5></div>
+
+  <div class="field-label">
       <%= form.label :entry %>
   </div>
 
-  <div class="field col-xl-6">
-      <%= form.text_area :entry %>
+  <div class="field">
+      <%= form.text_area :entry, :class => "form-control" %>
   </div>
+  <br />
 
-  <div class="field-label col-xl-6">
+  <div class="field-label">
       <%= form.label :due_at %>
   </div>
 
-  <div class="field col-xl-6">
+  <div class="field">
       <%= form.datetime_select :due_at %>
   </div>
+  <br />
 
-  <div class="actions col-xl-6">
-      <%= form.submit %>
+  <div class="actions">
+      <%= form.submit :class => "btn btn-primary" %>
   </div>
 <% end %>
