@@ -1,19 +1,19 @@
 <div class="container-fluid px-4">
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <strong>Name:</strong>
-    <%= @subject.name %>
-  </p>
+  <h1 class="mt-4"><%= @subject.name %></h1>
 
-  <div id="courses">
-    <% if @subject.courses.present? %>
-      <h1>Courses</h1>
-    <% end %>
+  <div class="flex-container-1">
     <%= render @subject.courses %>
-    <h2>Add a Course</h2>
-    <%= render partial: "courses/form", locals: {course: @subject.courses.new} %>
-    <br />
+  </div>
+
+  <br />
+
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Add a course</h5>
+      <%= render partial: "courses/form", locals: {course: @subject.courses.new} %>
+    </div>
   </div>
 
   <%= link_to 'Edit', edit_subject_path(@subject) %> |

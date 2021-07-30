@@ -1,10 +1,11 @@
-<div>
-  <div>
-    <strong> Homework </strong>
-    <%= homework.entry %>
-    <%= homework.due_at %>
-    <%= link_to 'Show', [@subject, @course, homework] %>
-    <%= link_to "Edit", edit_subject_course_homework_path(@subject, @course, homework) %>
-    <%= link_to "Destroy", [@subject, @course, homework], method: :delete, data: { confirm: 'Are you sure?' } %>
+<div class="card my-2 col-xl-3" style="width: 18rem; background-color: #FFCC80;">
+  <div class="card-body flex-container-2 mb-auto">
+    <div><%= homework.entry %></div>
+    <br />
+    <div><strong>Due on:</strong> <%= homework.due_at.strftime("%a, %d %b %Y") %></div>
+  </div>
+  <div class="card-text flex-container-3 mb-3 mt-2">
+    <div><%= button_to "Edit", edit_subject_course_homework_path(@subject, @course, homework), :method => "get", class: "btn btn-outline-dark mx-3" %></div>
+    <div><%= button_to "Destroy", [@subject, @course, homework], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-dark" %></div>
   </div>
 </div>

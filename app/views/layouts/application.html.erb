@@ -28,15 +28,21 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Subjects</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Subject 1
-                        </a>
+                        <% @subjects.each do |subject| %>
+                            <a class="nav-link" href="/subjects/<%= subject.id %>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-archive"></i></div>
+                                <%= subject.name %>
+                            </a>
+                        <% end %>
                         <div class="sb-sidenav-menu-heading">Courses</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Course 1
-                        </a>
+                        <% @subjects.each do |subject| %>
+                            <% subject.courses.each do |course| %>
+                                <a class="nav-link" href="/subjects/<%= subject.id %>/courses/<%= course.id %>">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                    <%= course.name %>
+                                </a>
+                            <% end %>
+                        <% end %>
                     </div>
                 </div>
             </nav>

@@ -11,11 +11,6 @@ class SubjectsController < ApplicationController
   # GET /subjects/1 or /subjects/1.json
   def show; end
 
-  # GET /subjects/new
-  def new
-    @subject = Subject.new
-  end
-
   # GET /subjects/1/edit
   def edit; end
 
@@ -28,7 +23,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to @subject, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
-        format.html { render :new }
+        format.html { redirect_to subjects_url }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
@@ -58,13 +53,13 @@ class SubjectsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_subject
-    @subject = Subject.find(params[:id])
-  end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_subject
+      @subject = Subject.find(params[:id])
+    end
 
-  # Only allow a list of trusted parameters through.
-  def subject_params
-    params.require(:subject).permit(:name)
-  end
+    # Only allow a list of trusted parameters through.
+    def subject_params
+      params.require(:subject).permit(:name)
+    end
 end

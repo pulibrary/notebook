@@ -37,3 +37,6 @@ RSpec/MultipleExpectations:
 
 RSpec/ExampleLength:
   Max: 7
+
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods

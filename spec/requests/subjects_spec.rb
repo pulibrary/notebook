@@ -41,13 +41,6 @@ RSpec.describe "/subjects", type: :request do
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_subject_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /edit" do
     it "render a successful response" do
       subject = Subject.create! valid_attributes
@@ -77,9 +70,9 @@ RSpec.describe "/subjects", type: :request do
         end.to change(Subject, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
+      it "renders a successful response (i.e. to display the subjects template)" do
         post subjects_url, params: { subject: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to redirect_to(subjects_url)
       end
     end
   end

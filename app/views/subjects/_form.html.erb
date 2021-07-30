@@ -1,4 +1,4 @@
-<%= form_with(model: subject) do |form| %>
+<%= form_with(model: subject, :html => {:class => 'flex-container-2'}) do |form| %>
   <% if subject.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(subject.errors.count, "error") %> prohibited this subject from being saved:</h2>
@@ -11,12 +11,16 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field-label">
     <%= form.label :name %>
-    <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.text_field :name, :class => "form-control" %>
+  </div>
+  <br />
+
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :class => "btn btn-primary" %>
   </div>
 <% end %>
