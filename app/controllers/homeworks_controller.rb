@@ -4,7 +4,6 @@ class HomeworksController < ApplicationController
   before_action :set_homework, only: %i[show edit update destroy]
   before_action :set_course
   before_action :set_subject
-  before_action :set_subjects
 
   def edit; end
 
@@ -54,10 +53,6 @@ class HomeworksController < ApplicationController
 
   def set_subject
     @subject = Subject.find(params[:subject_id])
-  end
-
-  def set_subjects
-    @subjects = Subject.all
   end
 
   # Only allow a list of trusted parameters through.
