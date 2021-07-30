@@ -42,21 +42,21 @@ class HomeworksController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_homework
-    @homework = Homework.find(params[:id])
-  end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_homework
+      @homework = Homework.find(params[:id])
+    end
 
-  def set_course
-    @course = Course.find(params[:course_id])
-  end
+    def set_course
+      @course = Course.find(params[:course_id])
+    end
 
-  def set_subject
-    @subject = Subject.find(params[:subject_id])
-  end
+    def set_subject
+      @subject = Subject.find(params[:subject_id])
+    end
 
-  # Only allow a list of trusted parameters through.
-  def homework_params
-    params.require(:homework).permit(:entry, :due_at)
-  end
+    # Only allow a list of trusted parameters through.
+    def homework_params
+      params.require(:homework).permit(:entry, :due_at)
+    end
 end

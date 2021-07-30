@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_subjects
-    @subjects = Subject.all
-  end
+    def set_subjects
+      @subjects = Subject.all
+    end
 end
