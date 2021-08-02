@@ -1,27 +1,31 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe 'read subject', type: :system do
-  let!(:subject) { Subject.create(name: "Biology") }
+require "rails_helper"
 
-  scenario 'name exists' do
+RSpec.describe "read subject", type: :system do
+  it "displays name" do
+    Subject.create(name: "Biology")
     visit subjects_path
 
     expect(page).to have_content("Biology")
   end
 
-  scenario 'show button exists' do
+  it "displays show button" do
+    Subject.create(name: "Biology")
     visit subjects_path
 
     expect(page).to have_button("Show")
   end
 
-  scenario 'edit button exists' do
+  it "displays edit button" do
+    Subject.create(name: "Biology")
     visit subjects_path
 
     expect(page).to have_button("Edit")
   end
-  
-  scenario 'destroy button exists' do
+
+  it "displays destroy button" do
+    Subject.create(name: "Biology")
     visit subjects_path
 
     expect(page).to have_button("Destroy")
