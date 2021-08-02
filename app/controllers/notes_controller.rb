@@ -13,10 +13,8 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.save
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully created." }
-        format.json { render :show, status: :created, location: subject_course_path(@subject, @course) }
       else
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Unable to create note." }
-        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
   end
@@ -25,10 +23,8 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully updated." }
-        format.json { render :show, status: :ok, location: subject_course_path(@subject, @course) }
       else
         format.html { render :edit }
-        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,7 +33,6 @@ class NotesController < ApplicationController
     @note.destroy
     respond_to do |format|
       format.html { redirect_to subject_course_path(@subject, @course), notice: "Note was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

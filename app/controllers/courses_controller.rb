@@ -14,10 +14,8 @@ class CoursesController < ApplicationController
     respond_to do |format|
       if @course.save
         format.html { redirect_to @subject, notice: "Course was successfully created." }
-        format.json { render :show, status: :created, location: @subject }
       else
         format.html { redirect_to @subject, notice: "Unable to create course." }
-        format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -26,10 +24,8 @@ class CoursesController < ApplicationController
     respond_to do |format|
       if @course.update(course_params)
         format.html { redirect_to @subject, notice: "Course was successfully updated." }
-        format.json { render :show, status: :ok, location: @subject }
       else
         format.html { render :edit }
-        format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -38,7 +34,6 @@ class CoursesController < ApplicationController
     @course.destroy
     respond_to do |format|
       format.html { redirect_to @subject, notice: "Course was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
