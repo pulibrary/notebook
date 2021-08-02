@@ -16,7 +16,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @subject, notice: "Course was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
-        format.html { redirect_to @subject }
+        format.html { redirect_to @subject, notice: "Unable to create course." }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end

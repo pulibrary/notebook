@@ -23,7 +23,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to @subject, notice: "Subject was successfully created." }
         format.json { render :show, status: :created, location: @subject }
       else
-        format.html { redirect_to subjects_url }
+        format.html { redirect_to subjects_url, notice: "Unable to create subject." }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end
