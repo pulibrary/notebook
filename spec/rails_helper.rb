@@ -73,4 +73,4 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Capybara.default_driver = :selenium_chrome
+Dir[Rails.root.join("spec/support/*.rb")].each { |f| require f }
