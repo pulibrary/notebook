@@ -1,29 +1,34 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe 'destroy course', js:true, type: :system do
+require "rails_helper"
+
+RSpec.describe "destroy course", js: true, type: :system do
   let!(:subject) { Subject.create(name: "Biology") }
-  let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
 
-  scenario 'accept alert' do
-    visit subject_path(subject)
+  describe "accept alert" do
+    it "destroys course" do
+      subject.courses.create(name: "Biology 101", subject: subject)
+      visit subject_path(subject)
 
-    expect{
-      accept_alert "Are you sure?" do
-        click_button "Destroy"
-      end
-      sleep 1.second
-    }.to change(Course, :count).by(-1)
+      expect do
+        accept_alert "Are you sure?" do
+          click_button "Destroy"
+        end
+        sleep 1.second
+      end.to change(Course, :count).by(-1)
+    end
   end
 
-  scenario 'cancel alert' do
-    visit subject_path(subject)
+  describe "dismiss alert" do
+    it "does not destroy course" do
+      subject.courses.create(name: "Biology 101", subject: subject)
+      visit subject_path(subject)
+      click_button "Destroy"
 
-    click_button 'Destroy'
+      alert = page.driver.browser.switch_to.alert
+      alert.dismiss
 
-    alert = page.driver.browser.switch_to.alert
-    alert.dismiss
-
-    expect(Course.count).to eq(1)
+      expect(Course.count).to eq(1)
+    end
   end
-
 end
