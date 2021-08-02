@@ -1,25 +1,39 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe 'create subject', type: :system do
-  scenario 'empty name' do
-    visit subjects_path
-    click_button 'Create Subject'
+require "rails_helper"
 
-    expect(page).to have_content("Unable to create subject")
+RSpec.describe "create subject", type: :system do
+  describe "with empty name" do
+    it "does note create a new subject" do
+      visit subjects_path
+      click_button "Create Subject"
 
-    expect(Subject.count).to eq(0)
+      expect(Subject.count).to eq(0)
+    end
+
+    it "displays an error message" do
+      visit subjects_path
+      click_button "Create Subject"
+
+      expect(page).to have_content("Unable to create subject")
+    end
   end
 
-  scenario 'valid name' do
-    visit subjects_path
+  describe "with valid name" do
+    it "creates a new subject" do
+      visit subjects_path
+      fill_in "Name", with: "Biology"
+      click_button "Create Subject"
 
-    fill_in 'Name', with: 'Biology'
-    click_button 'Create Subject'
+      expect(Subject.count).to eq(1)
+    end
 
-    expect(page).to have_content("Subject was successfully created")
+    it "displays a success message" do
+      visit subjects_path
+      fill_in "Name", with: "Biology"
+      click_button "Create Subject"
 
-    expect(Subject.count).to eq(1)
-
-    expect(Subject.last.name).to eq('Biology')
+      expect(page).to have_content("Subject was successfully created")
+    end
   end
 end

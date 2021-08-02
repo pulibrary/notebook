@@ -1,27 +1,41 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe 'create course', type: :system do
+require "rails_helper"
+
+RSpec.describe "create course", type: :system do
   let!(:subject) { Subject.create(name: "Biology") }
 
-  scenario 'empty name' do
-    visit subject_path(subject)
-    click_button 'Create Course'
+  describe "with empty name" do
+    it "does not create a new course" do
+      visit subject_path(subject)
+      click_button "Create Course"
 
-    expect(page).to have_content("Unable to create course")
+      expect(Course.count).to eq(0)
+    end
 
-    expect(Course.count).to eq(0)
+    it "displays an error message" do
+      visit subject_path(subject)
+      click_button "Create Course"
+
+      expect(page).to have_content("Unable to create course")
+    end
   end
 
-  scenario 'valid name' do
-    visit subject_path(subject)
+  describe "with valid name" do
+    it "creates a new course" do
+      visit subject_path(subject)
+      fill_in "Name", with: "Biology 101"
+      click_button "Create Course"
 
-    fill_in 'Name', with: 'Biology 101'
-    click_button 'Create Course'
+      expect(Course.count).to eq(1)
+    end
 
-    expect(page).to have_content("Course was successfully created")
+    it "displays a success message" do
+      visit subject_path(subject)
+      fill_in "Name", with: "Biology 101"
+      click_button "Create Course"
 
-    expect(Course.count).to eq(1)
-
-    expect(Course.last.name).to eq('Biology 101')
+      expect(page).to have_content("Course was successfully created")
+    end
   end
 end
