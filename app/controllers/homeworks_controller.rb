@@ -12,10 +12,8 @@ class HomeworksController < ApplicationController
     respond_to do |format|
       if @homework.save
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Homework was successfully created." }
-        format.json { render :show, status: :created, location: subject_course_path(@subject, @course) }
       else
-        format.html { redirect_to subject_course_path(@subject, @course) }
-        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
+        format.html { redirect_to subject_course_path(@subject, @course), notice: "Unable to create homework." }
       end
     end
   end
@@ -24,10 +22,8 @@ class HomeworksController < ApplicationController
     respond_to do |format|
       if @homework.update(homework_params)
         format.html { redirect_to subject_course_path(@subject, @course), notice: "Homework was successfully updated." }
-        format.json { render :show, status: :ok, location: subject_course_path(@subject, @course) }
       else
         format.html { render :edit }
-        format.json { render json: subject_course_path(@subject, @course).errors, status: :unprocessable_entity }
       end
     end
   end
@@ -36,7 +32,6 @@ class HomeworksController < ApplicationController
     @homework.destroy
     respond_to do |format|
       format.html { redirect_to subject_course_path(@subject, @course), notice: "Homework was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
