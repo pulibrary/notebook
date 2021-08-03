@@ -36,7 +36,7 @@ RSpec/MultipleExpectations:
     - 'spec/requests/homeworks_spec.rb'
 
 RSpec/ExampleLength:
-  Max: 8
+  Enabled: false
 
 Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods
