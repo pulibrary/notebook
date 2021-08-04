@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "update note", type: :system do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let!(:subject) { Subject.create(name: "Biology") }
   let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
   let!(:note) { course.notes.create(entry: "This is a note", course: course) }

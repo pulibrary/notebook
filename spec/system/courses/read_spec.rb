@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "read course", type: :system do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let!(:subject) { Subject.create(name: "Biology") }
 
   it "displays name" do

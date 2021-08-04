@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe HomeworksController, type: :routing do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   describe "routing" do
     it "routes to #edit" do
       expect(get: "/subjects/1/courses/1/homeworks/1/edit").to route_to("homeworks#edit", id: "1", course_id: "1",

@@ -17,6 +17,12 @@ require "rails_helper"
 RSpec.describe "/courses", type: :request do
   # Course. As you add validations to Course, be sure to
   # adjust the attributes here as well.
+
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let(:subject) do
     Subject.create!(name: "subject name")
   end

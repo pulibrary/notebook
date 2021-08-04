@@ -17,6 +17,12 @@ require "rails_helper"
 RSpec.describe "/subjects", type: :request do
   # Subject. As you add validations to Subject, be sure to
   # adjust the attributes here as well.
+
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let(:valid_attributes) do
     { name: "subject name" }
   end

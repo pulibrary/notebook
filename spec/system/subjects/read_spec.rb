@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "read subject", type: :system do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   it "displays name" do
     Subject.create(name: "Biology")
     visit subjects_path

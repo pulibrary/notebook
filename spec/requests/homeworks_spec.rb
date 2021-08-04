@@ -17,6 +17,12 @@ require "rails_helper"
 RSpec.describe "/homeworks", type: :request do
   # Homework. As you add validations to Homework, be sure to
   # adjust the attributes here as well.
+
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let(:subject) do
     Subject.create!(name: "subject name")
   end

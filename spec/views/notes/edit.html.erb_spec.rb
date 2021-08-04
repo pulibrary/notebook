@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "notes/edit", type: :view do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   let!(:subject) do
     Subject.create!(name: "SubjectName")
   end
