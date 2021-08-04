@@ -3,12 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "courses/show", type: :view do
-  let!(:subject) do
-    Subject.create!(name: "SubjectName")
-  end
-  let!(:course) do
-    subject.courses.create!(name: "CourseName")
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create!(name: "SubjectName", user: user) }
+  let!(:course) { subject.courses.create!(name: "CourseName") }
+
+  before { login_as(user, scope: :user) }
 
   it "renders attributes in <p>" do
     assign(:subject, subject)

@@ -17,21 +17,14 @@ require "rails_helper"
 RSpec.describe "/notes", type: :request do
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
-  let(:subject) do
-    Subject.create!(name: "subject name")
-  end
 
-  let(:course) do
-    Course.create!(name: "course name", subject: subject)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:subject) { Subject.create!(name: "subject name", user: user) }
+  let(:course) { Course.create!(name: "course name", subject: subject) }
+  let(:valid_attributes) { { entry: "note entry", course: course } }
+  let(:invalid_attributes) { { entry: nil, course: course } }
 
-  let(:valid_attributes) do
-    { entry: "note entry", course: course }
-  end
-
-  let(:invalid_attributes) do
-    { entry: nil, course: course }
-  end
+  before { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     it "render a successful response" do

@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe NotesController, type: :routing do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   describe "routing" do
     it "routes to #edit" do
       expect(get: "/subjects/1/courses/1/notes/1/edit").to route_to("notes#edit", id: "1", course_id: "1",

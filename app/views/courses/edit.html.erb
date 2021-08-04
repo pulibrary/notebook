@@ -1,12 +1,10 @@
-<div class="container-fluid px-4">
-  <h1>Editing Course</h1>
+<h1>Editing Course</h1>
 
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-body">
-      <%= render 'form', course: @course %>
-    </div>
+<div class="card text-dark bg-light mb-3">
+  <div class="card-body">
+    <%= render 'form', course: @course %>
   </div>
-
-  <%= link_to 'Show', [@subject, @course] %> |
-  <%= link_to 'Back', @subject %>
 </div>
+
+<%= link_to 'Show', [@subject, @course] %> |
+<%= link_to 'Back', @subject %>

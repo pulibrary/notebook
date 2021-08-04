@@ -3,7 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "read course", type: :system do
-  let!(:subject) { Subject.create(name: "Biology") }
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create(name: "Biology", user: user) }
+
+  before { login_as(user, scope: :user) }
 
   it "displays name" do
     subject.courses.create(name: "Biology 101", subject: subject)

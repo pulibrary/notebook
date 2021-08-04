@@ -40,3 +40,6 @@ RSpec/ExampleLength:
 
 Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

@@ -3,7 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "create course", type: :system do
-  let!(:subject) { Subject.create(name: "Biology") }
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create(name: "Biology", user: user) }
+
+  before { login_as(user, scope: :user) }
 
   describe "with empty name" do
     it "does not create a new course" do

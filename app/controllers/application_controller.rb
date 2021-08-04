@@ -2,10 +2,11 @@
 
 class ApplicationController < ActionController::Base
   before_action :set_subjects
+  before_action :authenticate_user!
 
   private
 
     def set_subjects
-      @subjects = Subject.all
+      @subjects = current_user.subjects.all if current_user
     end
 end

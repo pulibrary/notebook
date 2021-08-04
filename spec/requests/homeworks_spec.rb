@@ -17,21 +17,14 @@ require "rails_helper"
 RSpec.describe "/homeworks", type: :request do
   # Homework. As you add validations to Homework, be sure to
   # adjust the attributes here as well.
-  let(:subject) do
-    Subject.create!(name: "subject name")
-  end
 
-  let(:course) do
-    Course.create!(name: "course name", subject: subject)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:subject) { Subject.create!(name: "subject name", user: user) }
+  let(:course) { Course.create!(name: "course name", subject: subject) }
+  let(:valid_attributes) { { entry: "homework entry", due_at: DateTime.now, course: course } }
+  let(:invalid_attributes) { { entry: nil, due_at: nil, course: course } }
 
-  let(:valid_attributes) do
-    { entry: "homework entry", due_at: DateTime.now, course: course }
-  end
-
-  let(:invalid_attributes) do
-    { entry: nil, due_at: nil, course: course }
-  end
+  before { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     it "render a successful response" do

@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe SubjectsController, type: :routing do
+  before do
+    user = FactoryBot.create(:user)
+    login_as(user, scope: :user)
+  end
+
   describe "routing" do
     it "routes to #index" do
       expect(get: "/subjects").to route_to("subjects#index")

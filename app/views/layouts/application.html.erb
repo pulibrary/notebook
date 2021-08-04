@@ -18,11 +18,23 @@
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="/">Notebook</a>
         <!-- Sidebar Toggle-->
+        <% if user_signed_in? %>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <% end %>
         <!-- Navbar-->
+        <div class="navbar-text" style="margin-left: auto">
+          <% if user_signed_in? %>
+            <%= link_to 'Edit profile', edit_user_registration_path, :class => "btn btn-link" %> |
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn btn-link"  %>
+          <% else %>
+            <%= link_to "Sign up", new_user_registration_path, :class => "btn btn-link"  %> |
+            <%= link_to "Login", new_user_session_path, :class => "btn btn-link"  %>
+          <% end %>
+        </div>
     </nav>
 
     <div id="layoutSidenav">
+        <% if user_signed_in? %>
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
@@ -47,9 +59,18 @@
                 </div>
             </nav>
         </div>
+        <% end %>
         <div id="layoutSidenav_content">
             <main>
-                <%= yield %>
+                <% if notice %>
+                  <p class="alert alert-success"><%= notice %></p>
+                <% end %>
+                <% if alert %>
+                  <p class="alert alert-danger"><%= alert %></p>
+                <% end %>
+                <div class="container-fluid px-4 mt-4">
+                  <%= yield %>
+                </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

@@ -1,26 +1,22 @@
-<div class="container-fluid px-4">
-  <p id="notice"><%= notice %></p>
+<h1 class="mt-4"><%= @course.name %></h1>
 
-  <h1 class="mt-4"><%= @course.name %></h1>
-
-  <div class="flex-container-1">
-    <%= render @course.notes %>
-    <%= render @course.homeworks %>
-  </div>
-
-  <br />
-
-  <div class="flex-container-1">
-    <div class="card new-note text-dark bg-light mb-3 col-xl-6">
-        <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
-    </div>
-
-    <div class="card new-homework text-dark bg-light mb-3 col-xl-6">
-        <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
-    </div>
-  </div>
-
-  <%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
-  <%= link_to 'Back', @subject %>
-  <br />
+<div class="flex-container-1">
+  <%= render @course.notes %>
+  <%= render @course.homeworks %>
 </div>
+
+<br />
+
+<div class="flex-container-1">
+  <div class="card new-note text-dark bg-light mb-3 col-xl-6">
+      <%= render partial: "notes/form", locals: {note: @course.notes.new} %>
+  </div>
+
+  <div class="card new-homework text-dark bg-light mb-3 col-xl-6">
+      <%= render partial: "homeworks/form", locals: {homework: @course.homeworks.new} %>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_subject_course_path(@subject, @course) %> |
+<%= link_to 'Back', @subject %>
+<br />

@@ -17,17 +17,13 @@ require "rails_helper"
 RSpec.describe "/courses", type: :request do
   # Course. As you add validations to Course, be sure to
   # adjust the attributes here as well.
-  let(:subject) do
-    Subject.create!(name: "subject name")
-  end
 
-  let(:valid_attributes) do
-    { name: "course name", subject: subject }
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:subject) { Subject.create!(name: "subject name", user: user) }
+  let(:valid_attributes) { { name: "course name", subject: subject } }
+  let(:invalid_attributes) { { name: nil, subject: subject } }
 
-  let(:invalid_attributes) do
-    { name: nil, subject: nil }
-  end
+  before { login_as(user, scope: :user) }
 
   describe "GET /show" do
     it "renders a successful response" do

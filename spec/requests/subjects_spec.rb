@@ -17,13 +17,12 @@ require "rails_helper"
 RSpec.describe "/subjects", type: :request do
   # Subject. As you add validations to Subject, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) do
-    { name: "subject name" }
-  end
 
-  let(:invalid_attributes) do
-    { name: nil }
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:valid_attributes) { { name: "subject name", user: user } }
+  let(:invalid_attributes) { { name: nil, user: user } }
+
+  before { login_as(user, scope: :user) }
 
   describe "GET /index" do
     it "renders a successful response" do

@@ -3,9 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "subjects/edit", type: :view do
-  let!(:subject) do
-    Subject.create!(name: "SubjectName")
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create!(name: "SubjectName", user: user) }
+
+  before { login_as(user, scope: :user) }
 
   it "renders the edit subject form" do
     assign(:subject, subject)

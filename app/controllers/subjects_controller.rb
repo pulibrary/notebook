@@ -4,9 +4,7 @@ class SubjectsController < ApplicationController
   before_action :set_subject, only: %i[show edit update destroy]
 
   # GET /subjects or /subjects.json
-  def index
-    @subjects = Subject.all
-  end
+  def index; end
 
   # GET /subjects/1 or /subjects/1.json
   def show; end
@@ -16,7 +14,7 @@ class SubjectsController < ApplicationController
 
   # POST /subjects or /subjects.json
   def create
-    @subject = Subject.new(subject_params)
+    @subject = Subject.new(subject_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if @subject.save

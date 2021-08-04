@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "create subject", type: :system do
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+
+  before { login_as(user, scope: :user) }
+
   describe "with empty name" do
     it "does note create a new subject" do
       visit subjects_path

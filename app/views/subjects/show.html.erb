@@ -1,21 +1,17 @@
-<div class="container-fluid px-4">
-  <p id="notice"><%= notice %></p>
+<h1 class="mt-4"><%= @subject.name %></h1>
 
-  <h1 class="mt-4"><%= @subject.name %></h1>
-
-  <div class="flex-container-1">
-    <%= render @subject.courses %>
-  </div>
-
-  <br />
-
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-body">
-      <h5 class="card-title">Add a course</h5>
-      <%= render partial: "courses/form", locals: {course: @subject.courses.new} %>
-    </div>
-  </div>
-
-  <%= link_to 'Edit', edit_subject_path(@subject) %> |
-  <%= link_to 'Back', subjects_path %>
+<div class="flex-container-1">
+  <%= render @subject.courses %>
 </div>
+
+<br />
+
+<div class="card text-dark bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Add a course</h5>
+    <%= render partial: "courses/form", locals: {course: @subject.courses.new} %>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_subject_path(@subject) %> |
+<%= link_to 'Back', subjects_path %>

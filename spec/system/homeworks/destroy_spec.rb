@@ -3,8 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "destroy homework", js: true, type: :system do
-  let!(:subject) { Subject.create(name: "Biology") }
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create(name: "Biology", user: user) }
   let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
+
+  before { login_as(user, scope: :user) }
 
   describe "accept alert" do
     it "destroys homework" do
