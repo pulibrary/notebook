@@ -1,29 +1,25 @@
-<div class="container-fluid px-4">
-  <p id="notice"><%= notice %></p>
+<h1 class="mt-4">Subjects</h1>
 
-  <h1 class="mt-4">Subjects</h1>
-
-  <div class="flex-container-1">
-    <% @subjects.each do |subject| %>
-      <div class="card my-2" style="width: 18rem; background-color: #B39DDB;">
-        <div class="card-body mx-auto">
-          <h3 class="m-auto"><%= subject.name %></h3>
-        </div>
-        <div class="card-text flex-container-1 mb-3 mt-2 mx-auto"">
-          <div><%= button_to "Show", subject, :method => "get", class: "btn btn-outline-dark" %></div>
-          <div><%= button_to "Edit", edit_subject_path(subject), :method => "get", class: "btn btn-outline-dark mx-3" %></div>
-          <div><%= button_to "Destroy", subject, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-dark" %></div>
-        </div>
+<div class="flex-container-1">
+  <% @subjects.each do |subject| %>
+    <div class="card my-2" style="width: 18rem; background-color: #B39DDB;">
+      <div class="card-body mx-auto">
+        <h3 class="m-auto"><%= subject.name %></h3>
       </div>
-
-    <% end %>
-  </div>
-  <br>
-
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-body">
-      <h5 class="card-title">Add a subject</h5>
-      <%= render partial: "subjects/form", locals: {subject: Subject.new} %>
+      <div class="card-text flex-container-1 mb-3 mt-2 mx-auto"">
+        <div><%= button_to "Show", subject, :method => "get", class: "btn btn-outline-dark" %></div>
+        <div><%= button_to "Edit", edit_subject_path(subject), :method => "get", class: "btn btn-outline-dark mx-3" %></div>
+        <div><%= button_to "Destroy", subject, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-dark" %></div>
+      </div>
     </div>
+
+  <% end %>
+</div>
+<br>
+
+<div class="card text-dark bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Add a subject</h5>
+    <%= render partial: "subjects/form", locals: {subject: Subject.new} %>
   </div>
 </div>

@@ -1,11 +1,9 @@
-<div class="container-fluid px-4">
-  <h1>Editing Note</h1>
+<h1>Editing Note</h1>
 
-  <div class="card text-dark bg-light mb-3">
-    <div class="card-body">
-      <%= render 'form', note: @note %>
-    </div>
+<div class="card text-dark bg-light mb-3">
+  <div class="card-body">
+    <%= render 'form', note: @note %>
   </div>
-
-  <%= link_to 'Back', subject_course_path(@subject, @course) %>
 </div>
+
+<%= link_to 'Back', subject_course_path(@subject, @course) %>
