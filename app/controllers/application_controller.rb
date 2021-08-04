@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   private
 
     def set_subjects
-      @subjects = Subject.all
+      @subjects = current_user.subjects.all if current_user
     end
 end
