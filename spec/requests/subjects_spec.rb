@@ -18,18 +18,11 @@ RSpec.describe "/subjects", type: :request do
   # Subject. As you add validations to Subject, be sure to
   # adjust the attributes here as well.
 
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:valid_attributes) { { name: "subject name", user: user } }
+  let(:invalid_attributes) { { name: nil, user: user } }
 
-  let(:valid_attributes) do
-    { name: "subject name" }
-  end
-
-  let(:invalid_attributes) do
-    { name: nil }
-  end
+  before { login_as(user, scope: :user) }
 
   describe "GET /index" do
     it "renders a successful response" do

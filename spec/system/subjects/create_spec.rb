@@ -3,10 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "create subject", type: :system do
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+
+  before { login_as(user, scope: :user) }
 
   describe "with empty name" do
     it "does note create a new subject" do

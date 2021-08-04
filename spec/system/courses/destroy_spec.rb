@@ -3,12 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "destroy course", js: true, type: :system do
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create(name: "Biology", user: user) }
 
-  let!(:subject) { Subject.create(name: "Biology") }
+  before { login_as(user, scope: :user) }
 
   describe "accept alert" do
     it "destroys course" do

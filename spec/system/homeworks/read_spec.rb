@@ -3,13 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "read homework", type: :system do
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
-
-  let!(:subject) { Subject.create(name: "Biology") }
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create(name: "Biology", user: user) }
   let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
+
+  before { login_as(user, scope: :user) }
 
   it "displays entry" do
     course.homeworks.create(entry: "This is a homework", due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"),

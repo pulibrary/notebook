@@ -3,20 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "notes/edit", type: :view do
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let!(:subject) { Subject.create!(name: "SubjectName", user: user) }
+  let!(:course) { subject.courses.create!(name: "CourseName") }
+  let!(:note) { course.notes.create!(entry: "MyText") }
 
-  let!(:subject) do
-    Subject.create!(name: "SubjectName")
-  end
-  let!(:course) do
-    subject.courses.create!(name: "CourseName")
-  end
-  let!(:note) do
-    course.notes.create!(entry: "MyText")
-  end
+  before { login_as(user, scope: :user) }
 
   it "renders the edit note form" do
     assign(:subject, subject)

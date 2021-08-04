@@ -3,14 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "destroy subject", js: true, type: :system do
-  before do
-    user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
-  end
+  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+
+  before { login_as(user, scope: :user) }
 
   describe "accept alert" do
     it "destroys subject" do
-      Subject.create(name: "Biology")
+      Subject.create(name: "Biology", user: user)
       visit subjects_path
 
       expect do
@@ -24,7 +23,7 @@ RSpec.describe "destroy subject", js: true, type: :system do
 
   describe "dismiss alert" do
     it "does not destroy subject" do
-      Subject.create(name: "Biology")
+      Subject.create(name: "Biology", user: user)
       visit subjects_path
       click_button "Destroy"
 
