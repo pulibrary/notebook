@@ -20,6 +20,16 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar-->
+        <div class="navbar-text">
+          <% if user_signed_in? %>
+            Logged in as <strong><%= current_user.email %></strong>.
+            <%= link_to 'Edit profile', edit_user_registration_path, :class => "btn btn-link" %> |
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn btn-link"  %>
+          <% else %>
+            <%= link_to "Sign up", new_user_registration_path, :class => "btn btn-link"  %> |
+            <%= link_to "Login", new_user_session_path, :class => "btn btn-link"  %>
+          <% end %>
+        </div>
     </nav>
 
     <div id="layoutSidenav">

@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :set_subjects
+  before_action :authenticate_user!
 
   private
 
