@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "update note", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
-  let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
-  let!(:note) { course.notes.create(entry: "This is a note", course: course) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let!(:note) { FactoryBot.create(:note, course: course) }
 
   before { login_as(user, scope: :user) }
 
@@ -24,7 +24,7 @@ RSpec.describe "update note", type: :system do
       click_button "Edit"
       fill_in "Entry", with: ""
       click_button "Update Note"
-      expect(note.reload.entry).to eq("This is a note")
+      expect(note.reload.entry).to eq("Biology note")
     end
   end
 

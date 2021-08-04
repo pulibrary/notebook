@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "create course", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
 
   before { login_as(user, scope: :user) }
 
@@ -12,14 +12,12 @@ RSpec.describe "create course", type: :system do
     it "does not create a new course" do
       visit subject_path(subject)
       click_button "Create Course"
-
       expect(Course.count).to eq(0)
     end
 
     it "displays an error message" do
       visit subject_path(subject)
       click_button "Create Course"
-
       expect(page).to have_content("Unable to create course")
     end
   end
@@ -29,7 +27,6 @@ RSpec.describe "create course", type: :system do
       visit subject_path(subject)
       fill_in "Name", with: "Biology 101"
       click_button "Create Course"
-
       expect(Course.count).to eq(1)
     end
 
@@ -37,7 +34,6 @@ RSpec.describe "create course", type: :system do
       visit subject_path(subject)
       fill_in "Name", with: "Biology 101"
       click_button "Create Course"
-
       expect(page).to have_content("Course was successfully created")
     end
   end

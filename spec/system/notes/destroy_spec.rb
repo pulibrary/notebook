@@ -3,17 +3,17 @@
 require "rails_helper"
 
 RSpec.describe "destroy note", js: true, type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
-  let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let(:note) { FactoryBot.create(:note, course: course) }
 
   before { login_as(user, scope: :user) }
 
   describe "accept alert" do
     it "destroys note" do
-      course.notes.create(entry: "This is a note", course: course)
+      note
       visit subject_course_path(subject, course)
-
       expect do
         accept_alert "Are you sure?" do
           click_button "Destroy"
@@ -25,13 +25,11 @@ RSpec.describe "destroy note", js: true, type: :system do
 
   describe "dismiss alert" do
     it "does not destroy note" do
-      course.notes.create(entry: "This is a note", course: course)
+      note
       visit subject_course_path(subject, course)
       click_button "Destroy"
-
       alert = page.driver.browser.switch_to.alert
       alert.dismiss
-
       expect(Note.count).to eq(1)
     end
   end

@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "update homework", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
-  let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
-  let!(:homework) { course.homeworks.create(entry: "This is a homework", due_at: DateTime.now, course: course) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let!(:homework) { FactoryBot.create(:homework, course: course) }
 
   before { login_as(user, scope: :user) }
 
@@ -24,7 +24,7 @@ RSpec.describe "update homework", type: :system do
       click_button "Edit"
       fill_in "Entry", with: ""
       click_button "Update Homework"
-      expect(homework.reload.entry).to eq("This is a homework")
+      expect(homework.reload.entry).to eq("Biology homework")
     end
   end
 

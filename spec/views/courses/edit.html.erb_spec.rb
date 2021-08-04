@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "courses/edit", type: :view do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create!(name: "SubjectName", user: user) }
-  let!(:course) { subject.courses.create!(name: "MyString") }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
 
   before { login_as(user, scope: :user) }
 

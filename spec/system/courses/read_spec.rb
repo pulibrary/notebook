@@ -3,36 +3,33 @@
 require "rails_helper"
 
 RSpec.describe "read course", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:course) { FactoryBot.create(:course, subject: subject) }
 
   before { login_as(user, scope: :user) }
 
   it "displays name" do
-    subject.courses.create(name: "Biology 101", subject: subject)
+    course
     visit subject_path(subject)
-
     expect(page).to have_content("Biology 101")
   end
 
   it "displays show button" do
-    subject.courses.create(name: "Biology 101", subject: subject)
+    course
     visit subject_path(subject)
-
     expect(page).to have_button("Show")
   end
 
   it "displays edit button" do
-    subject.courses.create(name: "Biology 101", subject: subject)
+    course
     visit subject_path(subject)
-
     expect(page).to have_button("Edit")
   end
 
   it "displays destroy button" do
-    subject.courses.create(name: "Biology 101", subject: subject)
+    course
     visit subject_path(subject)
-
     expect(page).to have_button("Destroy")
   end
 end

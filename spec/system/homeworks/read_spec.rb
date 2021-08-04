@@ -3,41 +3,36 @@
 require "rails_helper"
 
 RSpec.describe "read homework", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create(name: "Biology", user: user) }
-  let!(:course) { subject.courses.create(name: "Biology 101", subject: subject) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let(:homework) do
+    FactoryBot.create(:homework, due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"), course: course)
+  end
 
   before { login_as(user, scope: :user) }
 
   it "displays entry" do
-    course.homeworks.create(entry: "This is a homework", due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"),
-                            course: course)
+    homework
     visit subject_course_path(subject, course)
-
-    expect(page).to have_content("This is a homework")
+    expect(page).to have_content("Biology homework")
   end
 
   it "displays due date" do
-    course.homeworks.create(entry: "This is a homework", due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"),
-                            course: course)
+    homework
     visit subject_course_path(subject, course)
-
     expect(page).to have_content("Due on: Mon, 02 Aug 2021")
   end
 
   it "displays edit button" do
-    course.homeworks.create(entry: "This is a homework", due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"),
-                            course: course)
+    homework
     visit subject_course_path(subject, course)
-
     expect(page).to have_button("Edit")
   end
 
   it "displays destroy button" do
-    course.homeworks.create(entry: "This is a homework", due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"),
-                            course: course)
+    homework
     visit subject_course_path(subject, course)
-
     expect(page).to have_button("Destroy")
   end
 end

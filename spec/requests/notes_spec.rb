@@ -18,17 +18,17 @@ RSpec.describe "/notes", type: :request do
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
 
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let(:subject) { Subject.create!(name: "subject name", user: user) }
-  let(:course) { Course.create!(name: "course name", subject: subject) }
-  let(:valid_attributes) { { entry: "note entry", course: course } }
-  let(:invalid_attributes) { { entry: nil, course: course } }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let!(:valid_attributes) { { entry: "note entry", course: course } }
+  let!(:invalid_attributes) { { entry: nil, course: course } }
 
   before { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     it "render a successful response" do
-      note = Note.create! valid_attributes
+      note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
       get edit_subject_course_note_url(subject, course, note)
       expect(response).to be_successful
     end
@@ -65,18 +65,18 @@ RSpec.describe "/notes", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) do
-        { entry: "note entry", course: course }
+        { entry: "new note entry", course: course }
       end
 
       it "updates the requested note" do
-        note = Note.create! valid_attributes
+        note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
         expect(note[:entry]).to eq(new_attributes[:entry])
       end
 
       it "redirects to the course page" do
-        note = Note.create! valid_attributes
+        note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
         expect(response).to redirect_to(subject_course_url(subject, course))
@@ -85,7 +85,7 @@ RSpec.describe "/notes", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        note = Note.create! valid_attributes
+        note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
         patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
         expect(response).to be_successful
       end
@@ -94,14 +94,14 @@ RSpec.describe "/notes", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested note" do
-      note = Note.create! valid_attributes
+      note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
       expect do
         delete subject_course_note_url(subject, course, note)
       end.to change(Note, :count).by(-1)
     end
 
     it "redirects to the notes list" do
-      note = Note.create! valid_attributes
+      note = FactoryBot.create(:note, entry: valid_attributes[:entry], course: valid_attributes[:course])
       delete subject_course_note_url(subject, course, note)
       expect(response).to redirect_to(subject_course_url(subject, course))
     end
