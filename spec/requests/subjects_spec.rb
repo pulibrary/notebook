@@ -24,7 +24,7 @@ RSpec.describe "/subjects", type: :request do
   let(:login) { login_as(user, scope: :user) }
 
   describe "GET /index" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         FactoryBot.create(:subject)
         get subjects_url
@@ -32,7 +32,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "renders a successful response" do
         login
         FactoryBot.create(:subject)
@@ -43,7 +43,7 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "GET /show" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         subject = FactoryBot.create(:subject)
         get subject_url(subject)
@@ -51,7 +51,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "renders a successful response" do
         login
         subject = FactoryBot.create(:subject)
@@ -62,7 +62,7 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "GET /edit" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         subject = FactoryBot.create(:subject)
         get edit_subject_url(subject)
@@ -70,7 +70,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "render a successful response" do
         login
         subject = FactoryBot.create(:subject)
@@ -81,14 +81,14 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "POST /create" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         post subjects_url, params: { subject: valid_attributes }
         expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "creates a new Subject" do
         login
         expect do
@@ -103,7 +103,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "does not create a new Subject" do
         login
         expect do
@@ -124,7 +124,7 @@ RSpec.describe "/subjects", type: :request do
       { name: "new subject name" }
     end
 
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         subject = FactoryBot.create(:subject)
         patch subject_url(subject), params: { subject: new_attributes }
@@ -132,7 +132,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "updates the requested subject" do
         login
         subject = FactoryBot.create(:subject)
@@ -150,7 +150,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         login
         subject = FactoryBot.create(:subject)
@@ -161,7 +161,7 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "DELETE /destroy" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         subject = FactoryBot.create(:subject)
         delete subject_url(subject)
@@ -169,7 +169,7 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "destroys the requested subject" do
         login
         subject = FactoryBot.create(:subject)

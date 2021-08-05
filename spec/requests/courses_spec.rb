@@ -25,7 +25,7 @@ RSpec.describe "/courses", type: :request do
   let(:login) { login_as(user, scope: :user) }
 
   describe "GET /show" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         course = FactoryBot.create(:course)
         get subject_course_url(subject, course)
@@ -33,7 +33,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "renders a successful response" do
         login
         course = FactoryBot.create(:course)
@@ -44,7 +44,7 @@ RSpec.describe "/courses", type: :request do
   end
 
   describe "GET /edit" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         course = FactoryBot.create(:course)
         get edit_subject_course_url(subject, course)
@@ -52,7 +52,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "render a successful response" do
         login
         course = FactoryBot.create(:course)
@@ -63,14 +63,14 @@ RSpec.describe "/courses", type: :request do
   end
 
   describe "POST /create" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         post subject_courses_url(subject), params: { course: valid_attributes }
         expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "creates a new Course" do
         login
         expect do
@@ -85,7 +85,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "does not create a new Course" do
         login
         expect do
@@ -106,7 +106,7 @@ RSpec.describe "/courses", type: :request do
       { name: "new course name", subject: subject }
     end
 
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         course = FactoryBot.create(:course)
         patch subject_course_url(subject, course), params: { course: new_attributes }
@@ -114,7 +114,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "updates the requested course" do
         login
         course = FactoryBot.create(:course)
@@ -132,7 +132,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         login
         course = FactoryBot.create(:course)
@@ -143,7 +143,7 @@ RSpec.describe "/courses", type: :request do
   end
 
   describe "DELETE /destroy" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         course = FactoryBot.create(:course)
         delete subject_course_url(subject, course)
@@ -151,7 +151,7 @@ RSpec.describe "/courses", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "destroys the requested course" do
         login
         course = FactoryBot.create(:course)

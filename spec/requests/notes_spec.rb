@@ -26,7 +26,7 @@ RSpec.describe "/notes", type: :request do
   let(:login) { login_as(user, scope: :user) }
 
   describe "GET /edit" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         note = FactoryBot.create(:note)
         get edit_subject_course_note_url(subject, course, note)
@@ -34,7 +34,7 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "render a successful response" do
         login
         note = FactoryBot.create(:note)
@@ -45,14 +45,14 @@ RSpec.describe "/notes", type: :request do
   end
 
   describe "POST /create" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         post subject_course_notes_url(subject, course), params: { note: valid_attributes }
         expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "creates a new Note" do
         login
         expect do
@@ -67,7 +67,7 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "does not create a new Note" do
         login
         expect do
@@ -88,7 +88,7 @@ RSpec.describe "/notes", type: :request do
       { entry: "note entry", course: course }
     end
 
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         note = FactoryBot.create(:note)
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
@@ -96,7 +96,7 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "when logging in with valid parameters" do
+    context "when logged in with valid parameters" do
       it "updates the requested note" do
         login
         note = FactoryBot.create(:note)
@@ -114,7 +114,7 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "when logging in with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         login
         note = FactoryBot.create(:note)
@@ -125,7 +125,7 @@ RSpec.describe "/notes", type: :request do
   end
 
   describe "DELETE /destroy" do
-    context "without logging in" do
+    context "when not logged in" do
       it "redirects to users/sign_in page" do
         note = FactoryBot.create(:note)
         delete subject_course_note_url(subject, course, note)
@@ -133,7 +133,7 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "with logging in" do
+    context "when logged in" do
       it "destroys the requested note" do
         login
         note = FactoryBot.create(:note)
