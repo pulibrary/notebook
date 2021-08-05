@@ -19,14 +19,14 @@ RSpec.describe "/subjects", type: :request do
   # adjust the attributes here as well.
 
   let!(:user) { FactoryBot.create(:user) }
-  let!(:valid_attributes) { { name: "subject name", user: user } }
+  let!(:valid_attributes) { { name: "Biology", user: user } }
   let!(:invalid_attributes) { { name: nil, user: user } }
 
   before { login_as(user, scope: :user) }
 
   describe "GET /index" do
     it "renders a successful response" do
-      FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+      FactoryBot.create(:subject, user: user)
       get subjects_url
       expect(response).to be_successful
     end
@@ -34,7 +34,7 @@ RSpec.describe "/subjects", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+      subject = FactoryBot.create(:subject, user: user)
       get subject_url(subject)
       expect(response).to be_successful
     end
@@ -42,7 +42,7 @@ RSpec.describe "/subjects", type: :request do
 
   describe "GET /edit" do
     it "render a successful response" do
-      subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+      subject = FactoryBot.create(:subject, user: user)
       get edit_subject_url(subject)
       expect(response).to be_successful
     end
@@ -83,14 +83,14 @@ RSpec.describe "/subjects", type: :request do
       end
 
       it "updates the requested subject" do
-        subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+        subject = FactoryBot.create(:subject, user: user)
         patch subject_url(subject), params: { subject: new_attributes }
         subject.reload
         expect(subject[:name]).to eq(new_attributes[:name])
       end
 
       it "redirects to the subject" do
-        subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+        subject = FactoryBot.create(:subject, user: user)
         patch subject_url(subject), params: { subject: new_attributes }
         subject.reload
         expect(response).to redirect_to(subject_url(subject))
@@ -99,7 +99,7 @@ RSpec.describe "/subjects", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+        subject = FactoryBot.create(:subject, user: user)
         patch subject_url(subject), params: { subject: invalid_attributes }
         expect(response).to be_successful
       end
@@ -108,14 +108,14 @@ RSpec.describe "/subjects", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested subject" do
-      subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+      subject = FactoryBot.create(:subject, user: user)
       expect do
         delete subject_url(subject)
       end.to change(Subject, :count).by(-1)
     end
 
     it "redirects to the subjects list" do
-      subject = FactoryBot.create(:subject, name: valid_attributes[:name], user: valid_attributes[:user])
+      subject = FactoryBot.create(:subject, user: user)
       delete subject_url(subject)
       expect(response).to redirect_to(subjects_url)
     end

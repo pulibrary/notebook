@@ -20,14 +20,14 @@ RSpec.describe "/courses", type: :request do
 
   let!(:user) { FactoryBot.create(:user) }
   let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:valid_attributes) { { name: "course name", subject: subject } }
+  let!(:valid_attributes) { { name: "Biology 101", subject: subject } }
   let!(:invalid_attributes) { { name: nil, subject: subject } }
 
   before { login_as(user, scope: :user) }
 
   describe "GET /show" do
     it "renders a successful response" do
-      course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+      course = FactoryBot.create(:course, subject: subject)
       get subject_course_url(subject, course)
       expect(response).to be_successful
     end
@@ -35,7 +35,7 @@ RSpec.describe "/courses", type: :request do
 
   describe "GET /edit" do
     it "render a successful response" do
-      course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+      course = FactoryBot.create(:course, subject: subject)
       get edit_subject_course_url(subject, course)
       expect(response).to be_successful
     end
@@ -76,14 +76,14 @@ RSpec.describe "/courses", type: :request do
       end
 
       it "updates the requested course" do
-        course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+        course = FactoryBot.create(:course, subject: subject)
         patch subject_course_url(subject, course), params: { course: new_attributes }
         course.reload
         expect(course[:name]).to eq(new_attributes[:name])
       end
 
       it "redirects to the courses list" do
-        course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+        course = FactoryBot.create(:course, subject: subject)
         patch subject_course_url(subject, course), params: { course: new_attributes }
         course.reload
         expect(response).to redirect_to(subject_url(subject))
@@ -92,7 +92,7 @@ RSpec.describe "/courses", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+        course = FactoryBot.create(:course, subject: subject)
         patch subject_course_url(subject, course), params: { course: invalid_attributes }
         expect(response).to be_successful
       end
@@ -101,14 +101,14 @@ RSpec.describe "/courses", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested course" do
-      course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+      course = FactoryBot.create(:course, subject: subject)
       expect do
         delete subject_course_url(subject, course)
       end.to change(Course, :count).by(-1)
     end
 
     it "redirects to the courses list" do
-      course = FactoryBot.create(:course, name: valid_attributes[:name], subject: valid_attributes[:subject])
+      course = FactoryBot.create(:course, subject: subject)
       delete subject_course_url(subject, course)
       expect(response).to redirect_to(subject_url(subject))
     end

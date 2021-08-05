@@ -21,15 +21,14 @@ RSpec.describe "/homeworks", type: :request do
   let!(:user) { FactoryBot.create(:user) }
   let!(:subject) { FactoryBot.create(:subject, user: user) }
   let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let!(:valid_attributes) { { entry: "homework entry", due_at: DateTime.now, course: course } }
+  let!(:valid_attributes) { { entry: "Biology homework", due_at: DateTime.now, course: course } }
   let!(:invalid_attributes) { { entry: nil, due_at: nil, course: course } }
 
   before { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     it "render a successful response" do
-      homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                              course: valid_attributes[:course])
+      homework = FactoryBot.create(:homework, course: course)
       get edit_subject_course_homework_url(subject, course, homework)
       expect(response).to be_successful
     end
@@ -70,8 +69,7 @@ RSpec.describe "/homeworks", type: :request do
       end
 
       it "updates the requested homework" do
-        homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                                course: valid_attributes[:course])
+        homework = FactoryBot.create(:homework, course: course)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
         expect(homework[:entry]).to eq(new_attributes[:entry])
@@ -79,8 +77,7 @@ RSpec.describe "/homeworks", type: :request do
       end
 
       it "redirects to the course page" do
-        homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                                course: valid_attributes[:course])
+        homework = FactoryBot.create(:homework, course: course)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
         expect(response).to redirect_to(subject_course_url(subject, course))
@@ -89,8 +86,7 @@ RSpec.describe "/homeworks", type: :request do
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                                course: valid_attributes[:course])
+        homework = FactoryBot.create(:homework, course: course)
         patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
         expect(response).to be_successful
       end
@@ -99,16 +95,14 @@ RSpec.describe "/homeworks", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested homework" do
-      homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                              course: valid_attributes[:course])
+      homework = FactoryBot.create(:homework, course: course)
       expect do
         delete subject_course_homework_url(subject, course, homework)
       end.to change(Homework, :count).by(-1)
     end
 
     it "redirects to the homeworks list" do
-      homework = FactoryBot.create(:homework, entry: valid_attributes[:entry], due_at: valid_attributes[:due_at],
-                                              course: valid_attributes[:course])
+      homework = FactoryBot.create(:homework, course: course)
       delete subject_course_homework_url(subject, course, homework)
       expect(response).to redirect_to(subject_course_url(subject, course))
     end
