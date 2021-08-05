@@ -24,8 +24,6 @@ RSpec.describe "/courses", type: :request do
   let(:invalid_attributes) { { name: nil } }
   let(:login) { login_as(user, scope: :user) }
 
-  before { login_as(user, scope: :user) }
-
   describe "GET /show" do
     context "without logging in" do
       it "redirects to users/sign_in page" do
