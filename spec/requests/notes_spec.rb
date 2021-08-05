@@ -23,87 +23,135 @@ RSpec.describe "/notes", type: :request do
   let(:course) { FactoryBot.create(:course) }
   let(:valid_attributes) { { entry: "Biology note" } }
   let(:invalid_attributes) { { entry: nil } }
-
-  before { login_as(user, scope: :user) }
+  let(:login) { login_as(user, scope: :user) }
 
   describe "GET /edit" do
-    it "render a successful response" do
-      note = FactoryBot.create(:note)
-      get edit_subject_course_note_url(subject, course, note)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Note" do
-        expect do
-          post subject_course_notes_url(subject, course), params: { note: valid_attributes }
-        end.to change(Note, :count).by(1)
-      end
-
-      it "redirects to the course page" do
-        post subject_course_notes_url(subject, course), params: { note: valid_attributes }
-        expect(response).to redirect_to(subject_course_url(subject, course))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new Note" do
-        expect do
-          post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
-        end.to change(Note, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the course page)" do
-        post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
-        expect(response).to redirect_to(subject_course_url(subject, course))
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) do
-        { entry: "new note entry" }
-      end
-
-      it "updates the requested note" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
         note = FactoryBot.create(:note)
-        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
-        note.reload
-        expect(note[:entry]).to eq(new_attributes[:entry])
-      end
-
-      it "redirects to the course page" do
-        note = FactoryBot.create(:note)
-        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
-        note.reload
-        expect(response).to redirect_to(subject_course_url(subject, course))
+        get edit_subject_course_note_url(subject, course, note)
+        expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+    context "with logging in" do
+      it "render a successful response" do
+        login
         note = FactoryBot.create(:note)
-        patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
+        get edit_subject_course_note_url(subject, course, note)
         expect(response).to be_successful
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested note" do
-      note = FactoryBot.create(:note)
-      expect do
-        delete subject_course_note_url(subject, course, note)
-      end.to change(Note, :count).by(-1)
+  describe "POST /create" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        post subject_course_notes_url(subject, course), params: { note: valid_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
     end
 
-    it "redirects to the notes list" do
-      note = FactoryBot.create(:note)
-      delete subject_course_note_url(subject, course, note)
-      expect(response).to redirect_to(subject_course_url(subject, course))
+    context "with logging in" do
+      context "with valid parameters" do
+        it "creates a new Note" do
+          login
+          expect do
+            post subject_course_notes_url(subject, course), params: { note: valid_attributes }
+          end.to change(Note, :count).by(1)
+        end
+
+        it "redirects to the course page" do
+          login
+          post subject_course_notes_url(subject, course), params: { note: valid_attributes }
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "does not create a new Note" do
+          login
+          expect do
+            post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
+          end.to change(Note, :count).by(0)
+        end
+
+        it "renders a successful response (i.e. to display the course page)" do
+          login
+          post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    let(:new_attributes) do
+      { entry: "note entry", course: course }
+    end
+
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        note = FactoryBot.create(:note)
+        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      context "with valid parameters" do
+        it "updates the requested note" do
+          login
+          note = FactoryBot.create(:note)
+          patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
+          note.reload
+          expect(note[:entry]).to eq(new_attributes[:entry])
+        end
+
+        it "redirects to the course page" do
+          login
+          note = FactoryBot.create(:note)
+          patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
+          note.reload
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "renders a successful response (i.e. to display the 'edit' template)" do
+          login
+          note = FactoryBot.create(:note)
+          patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
+          expect(response).to be_successful
+        end
+      end
+    end
+  end
+
+  describe "DELETE /destroy" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        note = FactoryBot.create(:note)
+        delete subject_course_note_url(subject, course, note)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      it "destroys the requested note" do
+        login
+        note = FactoryBot.create(:note)
+        expect do
+          delete subject_course_note_url(subject, course, note)
+        end.to change(Note, :count).by(-1)
+      end
+
+      it "redirects to the notes list" do
+        login
+        note = FactoryBot.create(:note)
+        delete subject_course_note_url(subject, course, note)
+        expect(response).to redirect_to(subject_course_url(subject, course))
+      end
     end
   end
 end
