@@ -8,7 +8,7 @@ RSpec.describe "update note", type: :system do
   let(:course) { FactoryBot.create(:course, subject: subject) }
   let!(:note) { FactoryBot.create(:note, course: course) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   describe "with empty entry" do
     it "shows error message" do

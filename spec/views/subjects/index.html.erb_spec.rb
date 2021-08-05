@@ -3,10 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "subjects/index", type: :view do
-  let(:user) { FactoryBot.create(:user) }
-
   before do
-    login_as(user, scope: :user)
+    user = FactoryBot.create(:user)
+    sign_in user
     assign(:subjects, [
              Subject.create!(
                name: "Name", user: user

@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe HomeworksController, type: :routing do
   before do
     user = FactoryBot.create(:user)
-    login_as(user, scope: :user)
+    sign_in user
   end
 
   describe "routing" do

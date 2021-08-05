@@ -3,12 +3,14 @@
 require "rails_helper"
 
 RSpec.describe "homeworks/edit", type: :view do
-  let(:user) { FactoryBot.create(:user) }
   let(:subject) { FactoryBot.create(:subject) }
   let(:course) { FactoryBot.create(:course) }
   let(:homework) { FactoryBot.create(:homework) }
 
-  before { login_as(user, scope: :user) }
+  before do
+    user = FactoryBot.create(:user)
+    sign_in user
+  end
 
   it "renders the edit homework form" do
     assign(:subject, subject)

@@ -34,7 +34,7 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in" do
       it "renders a successful response" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         get subject_course_url(subject, course)
         expect(response).to be_successful
@@ -53,7 +53,7 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in" do
       it "render a successful response" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         get edit_subject_course_url(subject, course)
         expect(response).to be_successful
@@ -71,14 +71,14 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in with valid parameters" do
       it "creates a new Course" do
-        login_as(user, scope: :user)
+        sign_in user
         expect do
           post subject_courses_url(subject), params: { course: valid_attributes }
         end.to change(Course, :count).by(1)
       end
 
       it "redirects to the courses list" do
-        login_as(user, scope: :user)
+        sign_in user
         post subject_courses_url(subject), params: { course: valid_attributes }
         expect(response).to redirect_to(subject_url(subject))
       end
@@ -86,14 +86,14 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in with invalid parameters" do
       it "does not create a new Course" do
-        login_as(user, scope: :user)
+        sign_in user
         expect do
           post subject_courses_url(subject), params: { course: invalid_attributes, subject: subject }
         end.to change(Course, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the subject page)" do
-        login_as(user, scope: :user)
+        sign_in user
         post subject_courses_url(subject), params: { course: invalid_attributes }
         expect(response).to redirect_to(subject)
       end
@@ -115,7 +115,7 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in with valid parameters" do
       it "updates the requested course" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         patch subject_course_url(subject, course), params: { course: new_attributes }
         course.reload
@@ -123,7 +123,7 @@ RSpec.describe "/courses", type: :request do
       end
 
       it "redirects to the courses list" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         patch subject_course_url(subject, course), params: { course: new_attributes }
         course.reload
@@ -133,7 +133,7 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         patch subject_course_url(subject, course), params: { course: invalid_attributes }
         expect(response).to be_successful
@@ -152,7 +152,7 @@ RSpec.describe "/courses", type: :request do
 
     context "when logged in" do
       it "destroys the requested course" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         expect do
           delete subject_course_url(subject, course)
@@ -160,7 +160,7 @@ RSpec.describe "/courses", type: :request do
       end
 
       it "redirects to the courses list" do
-        login_as(user, scope: :user)
+        sign_in user
         course = FactoryBot.create(:course)
         delete subject_course_url(subject, course)
         expect(response).to redirect_to(subject_url(subject))

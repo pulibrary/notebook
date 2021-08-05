@@ -7,7 +7,7 @@ RSpec.describe "read course", type: :system do
   let(:subject) { FactoryBot.create(:subject, user: user) }
   let(:course) { FactoryBot.create(:course, subject: subject) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   it "displays name" do
     course

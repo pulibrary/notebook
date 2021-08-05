@@ -7,7 +7,7 @@ RSpec.describe "create note", type: :system do
   let(:subject) { FactoryBot.create(:subject, user: user) }
   let(:course) { FactoryBot.create(:course, subject: subject) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   describe "with empty entry" do
     it "does note create a new note" do

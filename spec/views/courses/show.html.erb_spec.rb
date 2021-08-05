@@ -3,11 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "courses/show", type: :view do
-  let(:user) { FactoryBot.create(:user) }
   let(:subject) { FactoryBot.create(:subject) }
   let(:course) { FactoryBot.create(:course) }
 
-  before { login_as(user, scope: :user) }
+  before do
+    user = FactoryBot.create(:user)
+    sign_in user
+  end
 
   it "renders attributes in <p>" do
     assign(:subject, subject)
