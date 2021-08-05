@@ -23,88 +23,136 @@ RSpec.describe "/homeworks", type: :request do
   let(:course) { Course.create!(name: "course name", subject: subject) }
   let(:valid_attributes) { { entry: "homework entry", due_at: DateTime.now, course: course } }
   let(:invalid_attributes) { { entry: nil, due_at: nil, course: course } }
-
-  before { login_as(user, scope: :user) }
+  let(:login) { login_as(user, scope: :user) }
 
   describe "GET /edit" do
-    it "render a successful response" do
-      homework = Homework.create! valid_attributes
-      get edit_subject_course_homework_url(subject, course, homework)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Homework" do
-        expect do
-          post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
-        end.to change(Homework, :count).by(1)
-      end
-
-      it "redirects to the course page" do
-        post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
-        expect(response).to redirect_to(subject_course_url(subject, course))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new Homework" do
-        expect do
-          post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
-        end.to change(Homework, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the course page)" do
-        post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
-        expect(response).to redirect_to(subject_course_url(subject, course))
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) do
-        { entry: "new homework entry", due_at: DateTime.new(2022, 0o1, 3.5), course: course }
-      end
-
-      it "updates the requested homework" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
         homework = Homework.create! valid_attributes
-        patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
-        homework.reload
-        expect(homework[:entry]).to eq(new_attributes[:entry])
-        expect(homework[:due_at]).to eq(new_attributes[:due_at])
-      end
-
-      it "redirects to the course page" do
-        homework = Homework.create! valid_attributes
-        patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
-        homework.reload
-        expect(response).to redirect_to(subject_course_url(subject, course))
+        get edit_subject_course_homework_url(subject, course, homework)
+        expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+    context "with logging in" do
+      it "render a successful response" do
+        login
         homework = Homework.create! valid_attributes
-        patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
+        get edit_subject_course_homework_url(subject, course, homework)
         expect(response).to be_successful
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested homework" do
-      homework = Homework.create! valid_attributes
-      expect do
-        delete subject_course_homework_url(subject, course, homework)
-      end.to change(Homework, :count).by(-1)
+  describe "POST /create" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
     end
 
-    it "redirects to the homeworks list" do
-      homework = Homework.create! valid_attributes
-      delete subject_course_homework_url(subject, course, homework)
-      expect(response).to redirect_to(subject_course_url(subject, course))
+    context "with logging in" do
+      context "with valid parameters" do
+        it "creates a new Homework" do
+          login
+          expect do
+            post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
+          end.to change(Homework, :count).by(1)
+        end
+
+        it "redirects to the course page" do
+          login
+          post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "does not create a new Homework" do
+          login
+          expect do
+            post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
+          end.to change(Homework, :count).by(0)
+        end
+
+        it "renders a successful response (i.e. to display the course page)" do
+          login
+          post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    let(:new_attributes) do
+      { entry: "new homework entry", due_at: DateTime.new(2022, 0o1, 3.5), course: course }
+    end
+
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        homework = Homework.create! valid_attributes
+        patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      context "with valid parameters" do
+        it "updates the requested homework" do
+          login
+          homework = Homework.create! valid_attributes
+          patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
+          homework.reload
+          expect(homework[:entry]).to eq(new_attributes[:entry])
+          expect(homework[:due_at]).to eq(new_attributes[:due_at])
+        end
+
+        it "redirects to the course page" do
+          login
+          homework = Homework.create! valid_attributes
+          patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
+          homework.reload
+          expect(response).to redirect_to(subject_course_url(subject, course))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "renders a successful response (i.e. to display the 'edit' template)" do
+          login
+          homework = Homework.create! valid_attributes
+          patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
+          expect(response).to be_successful
+        end
+      end
+    end
+  end
+
+  describe "DELETE /destroy" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        homework = Homework.create! valid_attributes
+        delete subject_course_homework_url(subject, course, homework)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      it "destroys the requested homework" do
+        login
+        homework = Homework.create! valid_attributes
+        expect do
+          delete subject_course_homework_url(subject, course, homework)
+        end.to change(Homework, :count).by(-1)
+      end
+
+      it "redirects to the homeworks list" do
+        login
+        homework = Homework.create! valid_attributes
+        delete subject_course_homework_url(subject, course, homework)
+        expect(response).to redirect_to(subject_course_url(subject, course))
+      end
     end
   end
 end

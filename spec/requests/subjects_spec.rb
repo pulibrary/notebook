@@ -21,103 +21,173 @@ RSpec.describe "/subjects", type: :request do
   let!(:user) { User.create(email: "user@test.com", password: "testpass") }
   let(:valid_attributes) { { name: "subject name", user: user } }
   let(:invalid_attributes) { { name: nil, user: user } }
-
-  before { login_as(user, scope: :user) }
+  let(:login) { login_as(user, scope: :user) }
 
   describe "GET /index" do
-    it "renders a successful response" do
-      Subject.create! valid_attributes
-      get subjects_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /show" do
-    it "renders a successful response" do
-      subject = Subject.create! valid_attributes
-      get subject_url(subject)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /edit" do
-    it "render a successful response" do
-      subject = Subject.create! valid_attributes
-      get edit_subject_url(subject)
-      expect(response).to be_successful
-    end
-  end
-
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Subject" do
-        expect do
-          post subjects_url, params: { subject: valid_attributes }
-        end.to change(Subject, :count).by(1)
-      end
-
-      it "redirects to the created subject" do
-        post subjects_url, params: { subject: valid_attributes }
-        expect(response).to redirect_to(subject_url(Subject.last))
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        Subject.create! valid_attributes
+        get subjects_url
+        expect(response).to redirect_to("/users/sign_in")
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Subject" do
-        expect do
-          post subjects_url, params: { subject: invalid_attributes }
-        end.to change(Subject, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the subjects template)" do
-        post subjects_url, params: { subject: invalid_attributes }
-        expect(response).to redirect_to(subjects_url)
-      end
-    end
-  end
-
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) do
-        { name: "new subject name" }
-      end
-
-      it "updates the requested subject" do
-        subject = Subject.create! valid_attributes
-        patch subject_url(subject), params: { subject: new_attributes }
-        subject.reload
-        expect(subject[:name]).to eq(new_attributes[:name])
-      end
-
-      it "redirects to the subject" do
-        subject = Subject.create! valid_attributes
-        patch subject_url(subject), params: { subject: new_attributes }
-        subject.reload
-        expect(response).to redirect_to(subject_url(subject))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        subject = Subject.create! valid_attributes
-        patch subject_url(subject), params: { subject: invalid_attributes }
+    context "with logging in" do
+      it "renders a successful response" do
+        login
+        Subject.create! valid_attributes
+        get subjects_url
         expect(response).to be_successful
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested subject" do
-      subject = Subject.create! valid_attributes
-      expect do
-        delete subject_url(subject)
-      end.to change(Subject, :count).by(-1)
+  describe "GET /show" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        subject = Subject.create! valid_attributes
+        get subject_url(subject)
+        expect(response).to redirect_to("/users/sign_in")
+      end
     end
 
-    it "redirects to the subjects list" do
-      subject = Subject.create! valid_attributes
-      delete subject_url(subject)
-      expect(response).to redirect_to(subjects_url)
+    context "with logging in" do
+      it "renders a successful response" do
+        login
+        subject = Subject.create! valid_attributes
+        get subject_url(subject)
+        expect(response).to be_successful
+      end
+    end
+  end
+
+  describe "GET /edit" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        subject = Subject.create! valid_attributes
+        get edit_subject_url(subject)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      it "render a successful response" do
+        login
+        subject = Subject.create! valid_attributes
+        get edit_subject_url(subject)
+        expect(response).to be_successful
+      end
+    end
+  end
+
+  describe "POST /create" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        post subjects_url, params: { subject: valid_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      context "with valid parameters" do
+        it "creates a new Subject" do
+          login
+          expect do
+            post subjects_url, params: { subject: valid_attributes }
+          end.to change(Subject, :count).by(1)
+        end
+
+        it "redirects to the created subject" do
+          login
+          post subjects_url, params: { subject: valid_attributes }
+          expect(response).to redirect_to(subject_url(Subject.last))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "does not create a new Subject" do
+          login
+          expect do
+            post subjects_url, params: { subject: invalid_attributes }
+          end.to change(Subject, :count).by(0)
+        end
+
+        it "renders a successful response (i.e. to display the subjects template)" do
+          login
+          post subjects_url, params: { subject: invalid_attributes }
+          expect(response).to redirect_to(subjects_url)
+        end
+      end
+    end
+  end
+
+  describe "PATCH /update" do
+    let(:new_attributes) do
+      { name: "new subject name" }
+    end
+
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        subject = Subject.create! valid_attributes
+        patch subject_url(subject), params: { subject: new_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      context "with valid parameters" do
+        it "updates the requested subject" do
+          login
+          subject = Subject.create! valid_attributes
+          patch subject_url(subject), params: { subject: new_attributes }
+          subject.reload
+          expect(subject[:name]).to eq(new_attributes[:name])
+        end
+
+        it "redirects to the subject" do
+          login
+          subject = Subject.create! valid_attributes
+          patch subject_url(subject), params: { subject: new_attributes }
+          subject.reload
+          expect(response).to redirect_to(subject_url(subject))
+        end
+      end
+
+      context "with invalid parameters" do
+        it "renders a successful response (i.e. to display the 'edit' template)" do
+          login
+          subject = Subject.create! valid_attributes
+          patch subject_url(subject), params: { subject: invalid_attributes }
+          expect(response).to be_successful
+        end
+      end
+    end
+  end
+
+  describe "DELETE /destroy" do
+    context "without logging in" do
+      it "redirects to users/sign_in page" do
+        subject = Subject.create! valid_attributes
+        delete subject_url(subject)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "with logging in" do
+      it "destroys the requested subject" do
+        login
+        subject = Subject.create! valid_attributes
+        expect do
+          delete subject_url(subject)
+        end.to change(Subject, :count).by(-1)
+      end
+
+      it "redirects to the subjects list" do
+        login
+        subject = Subject.create! valid_attributes
+        delete subject_url(subject)
+        expect(response).to redirect_to(subjects_url)
+      end
     end
   end
 end
