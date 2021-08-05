@@ -88,35 +88,33 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
-      context "with valid parameters" do
-        it "creates a new Subject" do
-          login
-          expect do
-            post subjects_url, params: { subject: valid_attributes }
-          end.to change(Subject, :count).by(1)
-        end
-
-        it "redirects to the created subject" do
-          login
+    context "when logging in with valid parameters" do
+      it "creates a new Subject" do
+        login
+        expect do
           post subjects_url, params: { subject: valid_attributes }
-          expect(response).to redirect_to(subject_url(Subject.last))
-        end
+        end.to change(Subject, :count).by(1)
       end
 
-      context "with invalid parameters" do
-        it "does not create a new Subject" do
-          login
-          expect do
-            post subjects_url, params: { subject: invalid_attributes }
-          end.to change(Subject, :count).by(0)
-        end
+      it "redirects to the created subject" do
+        login
+        post subjects_url, params: { subject: valid_attributes }
+        expect(response).to redirect_to(subject_url(Subject.last))
+      end
+    end
 
-        it "renders a successful response (i.e. to display the subjects template)" do
-          login
+    context "when logging in with invalid parameters" do
+      it "does not create a new Subject" do
+        login
+        expect do
           post subjects_url, params: { subject: invalid_attributes }
-          expect(response).to redirect_to(subjects_url)
-        end
+        end.to change(Subject, :count).by(0)
+      end
+
+      it "renders a successful response (i.e. to display the subjects template)" do
+        login
+        post subjects_url, params: { subject: invalid_attributes }
+        expect(response).to redirect_to(subjects_url)
       end
     end
   end
@@ -134,32 +132,30 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with logging in" do
-      context "with valid parameters" do
-        it "updates the requested subject" do
-          login
-          subject = FactoryBot.create(:subject)
-          patch subject_url(subject), params: { subject: new_attributes }
-          subject.reload
-          expect(subject[:name]).to eq(new_attributes[:name])
-        end
-
-        it "redirects to the subject" do
-          login
-          subject = FactoryBot.create(:subject)
-          patch subject_url(subject), params: { subject: new_attributes }
-          subject.reload
-          expect(response).to redirect_to(subject_url(subject))
-        end
+    context "when logging in with valid parameters" do
+      it "updates the requested subject" do
+        login
+        subject = FactoryBot.create(:subject)
+        patch subject_url(subject), params: { subject: new_attributes }
+        subject.reload
+        expect(subject[:name]).to eq(new_attributes[:name])
       end
 
-      context "with invalid parameters" do
-        it "renders a successful response (i.e. to display the 'edit' template)" do
-          login
-          subject = FactoryBot.create(:subject)
-          patch subject_url(subject), params: { subject: invalid_attributes }
-          expect(response).to be_successful
-        end
+      it "redirects to the subject" do
+        login
+        subject = FactoryBot.create(:subject)
+        patch subject_url(subject), params: { subject: new_attributes }
+        subject.reload
+        expect(response).to redirect_to(subject_url(subject))
+      end
+    end
+
+    context "when logging in with invalid parameters" do
+      it "renders a successful response (i.e. to display the 'edit' template)" do
+        login
+        subject = FactoryBot.create(:subject)
+        patch subject_url(subject), params: { subject: invalid_attributes }
+        expect(response).to be_successful
       end
     end
   end

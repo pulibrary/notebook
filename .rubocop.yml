@@ -43,6 +43,4 @@ Layout/IndentationConsistency:
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
-
-RSpec/NestedGroups:
-  Max: 4
+  

@@ -52,35 +52,33 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "with logging in" do
-      context "with valid parameters" do
-        it "creates a new Note" do
-          login
-          expect do
-            post subject_course_notes_url(subject, course), params: { note: valid_attributes }
-          end.to change(Note, :count).by(1)
-        end
-
-        it "redirects to the course page" do
-          login
+    context "when logging in with valid parameters" do
+      it "creates a new Note" do
+        login
+        expect do
           post subject_course_notes_url(subject, course), params: { note: valid_attributes }
-          expect(response).to redirect_to(subject_course_url(subject, course))
-        end
+        end.to change(Note, :count).by(1)
       end
 
-      context "with invalid parameters" do
-        it "does not create a new Note" do
-          login
-          expect do
-            post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
-          end.to change(Note, :count).by(0)
-        end
+      it "redirects to the course page" do
+        login
+        post subject_course_notes_url(subject, course), params: { note: valid_attributes }
+        expect(response).to redirect_to(subject_course_url(subject, course))
+      end
+    end
 
-        it "renders a successful response (i.e. to display the course page)" do
-          login
+    context "when logging in with invalid parameters" do
+      it "does not create a new Note" do
+        login
+        expect do
           post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
-          expect(response).to redirect_to(subject_course_url(subject, course))
-        end
+        end.to change(Note, :count).by(0)
+      end
+
+      it "renders a successful response (i.e. to display the course page)" do
+        login
+        post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
+        expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
   end
@@ -98,32 +96,30 @@ RSpec.describe "/notes", type: :request do
       end
     end
 
-    context "with logging in" do
-      context "with valid parameters" do
-        it "updates the requested note" do
-          login
-          note = FactoryBot.create(:note)
-          patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
-          note.reload
-          expect(note[:entry]).to eq(new_attributes[:entry])
-        end
-
-        it "redirects to the course page" do
-          login
-          note = FactoryBot.create(:note)
-          patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
-          note.reload
-          expect(response).to redirect_to(subject_course_url(subject, course))
-        end
+    context "when logging in with valid parameters" do
+      it "updates the requested note" do
+        login
+        note = FactoryBot.create(:note)
+        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
+        note.reload
+        expect(note[:entry]).to eq(new_attributes[:entry])
       end
 
-      context "with invalid parameters" do
-        it "renders a successful response (i.e. to display the 'edit' template)" do
-          login
-          note = FactoryBot.create(:note)
-          patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
-          expect(response).to be_successful
-        end
+      it "redirects to the course page" do
+        login
+        note = FactoryBot.create(:note)
+        patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
+        note.reload
+        expect(response).to redirect_to(subject_course_url(subject, course))
+      end
+    end
+
+    context "when logging in with invalid parameters" do
+      it "renders a successful response (i.e. to display the 'edit' template)" do
+        login
+        note = FactoryBot.create(:note)
+        patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
+        expect(response).to be_successful
       end
     end
   end
