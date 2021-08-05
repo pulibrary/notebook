@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "subjects/index", type: :view do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:user) { FactoryBot.create(:user) }
 
   before do
     login_as(user, scope: :user)

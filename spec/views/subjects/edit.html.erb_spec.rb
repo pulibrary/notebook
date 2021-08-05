@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "subjects/edit", type: :view do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
-  let!(:subject) { Subject.create!(name: "SubjectName", user: user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject) }
 
   before { login_as(user, scope: :user) }
 

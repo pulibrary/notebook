@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "create subject", type: :system do
-  let!(:user) { User.create(email: "user@test.com", password: "testpass") }
+  let(:user) { FactoryBot.create(:user) }
 
   before { login_as(user, scope: :user) }
 
@@ -11,14 +11,12 @@ RSpec.describe "create subject", type: :system do
     it "does note create a new subject" do
       visit subjects_path
       click_button "Create Subject"
-
       expect(Subject.count).to eq(0)
     end
 
     it "displays an error message" do
       visit subjects_path
       click_button "Create Subject"
-
       expect(page).to have_content("Unable to create subject")
     end
   end
@@ -28,7 +26,6 @@ RSpec.describe "create subject", type: :system do
       visit subjects_path
       fill_in "Name", with: "Biology"
       click_button "Create Subject"
-
       expect(Subject.count).to eq(1)
     end
 
@@ -36,7 +33,6 @@ RSpec.describe "create subject", type: :system do
       visit subjects_path
       fill_in "Name", with: "Biology"
       click_button "Create Subject"
-
       expect(page).to have_content("Subject was successfully created")
     end
   end
