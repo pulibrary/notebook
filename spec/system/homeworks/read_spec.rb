@@ -6,9 +6,7 @@ RSpec.describe "read homework", type: :system do
   let!(:user) { FactoryBot.create(:user) }
   let!(:subject) { FactoryBot.create(:subject, user: user) }
   let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let(:homework) do
-    FactoryBot.create(:homework, due_at: DateTime.parse("Mon 2nd Aug 2021 04:05:06+03:30"), course: course)
-  end
+  let(:homework) { FactoryBot.create(:homework, course: course) }
 
   before { login_as(user, scope: :user) }
 
