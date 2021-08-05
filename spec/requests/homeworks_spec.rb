@@ -23,7 +23,6 @@ RSpec.describe "/homeworks", type: :request do
   let(:course) { FactoryBot.create(:course) }
   let(:valid_attributes) { { entry: "Biology homework", due_at: DateTime.now } }
   let(:invalid_attributes) { { entry: nil, due_at: nil } }
-  let(:login) { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     context "when not logged in" do
@@ -36,7 +35,7 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in" do
       it "render a successful response" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         get edit_subject_course_homework_url(subject, course, homework)
         expect(response).to be_successful
@@ -54,14 +53,14 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in with valid parameters" do
       it "creates a new Homework" do
-        login
+        login_as(user, scope: :user)
         expect do
           post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
         end.to change(Homework, :count).by(1)
       end
 
       it "redirects to the course page" do
-        login
+        login_as(user, scope: :user)
         post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
@@ -69,14 +68,14 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in with invalid parameters" do
       it "does not create a new Homework" do
-        login
+        login_as(user, scope: :user)
         expect do
           post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
         end.to change(Homework, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the course page)" do
-        login
+        login_as(user, scope: :user)
         post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
@@ -98,7 +97,7 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in with valid parameters" do
       it "updates the requested homework" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
@@ -107,7 +106,7 @@ RSpec.describe "/homeworks", type: :request do
       end
 
       it "redirects to the course page" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
@@ -117,7 +116,7 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
         expect(response).to be_successful
@@ -136,7 +135,7 @@ RSpec.describe "/homeworks", type: :request do
 
     context "when logged in" do
       it "destroys the requested homework" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         expect do
           delete subject_course_homework_url(subject, course, homework)
@@ -144,7 +143,7 @@ RSpec.describe "/homeworks", type: :request do
       end
 
       it "redirects to the homeworks list" do
-        login
+        login_as(user, scope: :user)
         homework = FactoryBot.create(:homework)
         delete subject_course_homework_url(subject, course, homework)
         expect(response).to redirect_to(subject_course_url(subject, course))

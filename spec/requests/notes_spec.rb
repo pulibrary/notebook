@@ -23,7 +23,6 @@ RSpec.describe "/notes", type: :request do
   let(:course) { FactoryBot.create(:course) }
   let(:valid_attributes) { { entry: "Biology note" } }
   let(:invalid_attributes) { { entry: nil } }
-  let(:login) { login_as(user, scope: :user) }
 
   describe "GET /edit" do
     context "when not logged in" do
@@ -36,7 +35,7 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in" do
       it "render a successful response" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         get edit_subject_course_note_url(subject, course, note)
         expect(response).to be_successful
@@ -54,14 +53,14 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in with valid parameters" do
       it "creates a new Note" do
-        login
+        login_as(user, scope: :user)
         expect do
           post subject_course_notes_url(subject, course), params: { note: valid_attributes }
         end.to change(Note, :count).by(1)
       end
 
       it "redirects to the course page" do
-        login
+        login_as(user, scope: :user)
         post subject_course_notes_url(subject, course), params: { note: valid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
@@ -69,14 +68,14 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in with invalid parameters" do
       it "does not create a new Note" do
-        login
+        login_as(user, scope: :user)
         expect do
           post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
         end.to change(Note, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the course page)" do
-        login
+        login_as(user, scope: :user)
         post subject_course_notes_url(subject, course), params: { note: invalid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
@@ -98,7 +97,7 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in with valid parameters" do
       it "updates the requested note" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
@@ -106,7 +105,7 @@ RSpec.describe "/notes", type: :request do
       end
 
       it "redirects to the course page" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         patch subject_course_note_url(subject, course, note), params: { note: new_attributes }
         note.reload
@@ -116,7 +115,7 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         patch subject_course_note_url(subject, course, note), params: { note: invalid_attributes }
         expect(response).to be_successful
@@ -135,7 +134,7 @@ RSpec.describe "/notes", type: :request do
 
     context "when logged in" do
       it "destroys the requested note" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         expect do
           delete subject_course_note_url(subject, course, note)
@@ -143,7 +142,7 @@ RSpec.describe "/notes", type: :request do
       end
 
       it "redirects to the notes list" do
-        login
+        login_as(user, scope: :user)
         note = FactoryBot.create(:note)
         delete subject_course_note_url(subject, course, note)
         expect(response).to redirect_to(subject_course_url(subject, course))
