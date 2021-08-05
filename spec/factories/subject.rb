@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :subject do
     name { "Biology" }
-    user { nil }
+    user
   end
 end

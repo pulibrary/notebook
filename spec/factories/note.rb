@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :note do
     entry { "Biology note" }
-    course { nil }
+    course
   end
 end
