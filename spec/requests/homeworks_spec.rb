@@ -18,11 +18,11 @@ RSpec.describe "/homeworks", type: :request do
   # Homework. As you add validations to Homework, be sure to
   # adjust the attributes here as well.
 
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let!(:valid_attributes) { { entry: "Biology homework", due_at: DateTime.now, course: course } }
-  let!(:invalid_attributes) { { entry: nil, due_at: nil, course: course } }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:course) { FactoryBot.create(:course, subject: subject) }
+  let(:valid_attributes) { { entry: "Biology homework", due_at: DateTime.now, course: course } }
+  let(:invalid_attributes) { { entry: nil, due_at: nil, course: course } }
 
   before { login_as(user, scope: :user) }
 

@@ -18,11 +18,11 @@ RSpec.describe "/notes", type: :request do
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
 
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let!(:valid_attributes) { { entry: "Biology note", course: course } }
-  let!(:invalid_attributes) { { entry: nil, course: course } }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:course) { FactoryBot.create(:course, subject: subject) }
+  let(:valid_attributes) { { entry: "Biology note", course: course } }
+  let(:invalid_attributes) { { entry: nil, course: course } }
 
   before { login_as(user, scope: :user) }
 

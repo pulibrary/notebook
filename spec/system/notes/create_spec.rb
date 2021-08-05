@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "create note", type: :system do
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:course) { FactoryBot.create(:course, subject: subject) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:course) { FactoryBot.create(:course, subject: subject) }
 
   before { login_as(user, scope: :user) }
 

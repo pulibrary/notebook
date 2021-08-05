@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "create subject", type: :system do
-  let!(:user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   before { login_as(user, scope: :user) }
 

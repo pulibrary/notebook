@@ -18,9 +18,9 @@ RSpec.describe "/subjects", type: :request do
   # Subject. As you add validations to Subject, be sure to
   # adjust the attributes here as well.
 
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:valid_attributes) { { name: "Biology", user: user } }
-  let!(:invalid_attributes) { { name: nil, user: user } }
+  let(:user) { FactoryBot.create(:user) }
+  let(:valid_attributes) { { name: "Biology", user: user } }
+  let(:invalid_attributes) { { name: nil, user: user } }
 
   before { login_as(user, scope: :user) }
 

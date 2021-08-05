@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "notes/edit", type: :view do
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let!(:note) { FactoryBot.create(:note, course: course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject) }
+  let(:course) { FactoryBot.create(:course) }
+  let(:note) { FactoryBot.create(:note) }
 
   before { login_as(user, scope: :user) }
 

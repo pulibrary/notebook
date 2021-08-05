@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "subjects/show", type: :view do
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject) }
 
   before { login_as(user, scope: :user) }
 

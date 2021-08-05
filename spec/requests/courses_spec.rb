@@ -18,10 +18,10 @@ RSpec.describe "/courses", type: :request do
   # Course. As you add validations to Course, be sure to
   # adjust the attributes here as well.
 
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:valid_attributes) { { name: "Biology 101", subject: subject } }
-  let!(:invalid_attributes) { { name: nil, subject: subject } }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject, user: user) }
+  let(:valid_attributes) { { name: "Biology 101", subject: subject } }
+  let(:invalid_attributes) { { name: nil, subject: subject } }
 
   before { login_as(user, scope: :user) }
 

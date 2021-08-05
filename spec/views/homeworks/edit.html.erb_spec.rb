@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "homeworks/edit", type: :view do
-  let!(:user) { FactoryBot.create(:user) }
-  let!(:subject) { FactoryBot.create(:subject, user: user) }
-  let!(:course) { FactoryBot.create(:course, subject: subject) }
-  let!(:homework) { FactoryBot.create(:homework, course: course) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:subject) { FactoryBot.create(:subject) }
+  let(:course) { FactoryBot.create(:course) }
+  let(:homework) { FactoryBot.create(:homework) }
 
   before { login_as(user, scope: :user) }
 
