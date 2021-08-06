@@ -6,7 +6,7 @@ RSpec.describe "create course", type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:subject) { FactoryBot.create(:subject, user: user) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   describe "with empty name" do
     it "does not create a new course" do

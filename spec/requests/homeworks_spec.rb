@@ -24,38 +24,58 @@ RSpec.describe "/homeworks", type: :request do
   let(:valid_attributes) { { entry: "Biology homework", due_at: DateTime.now } }
   let(:invalid_attributes) { { entry: nil, due_at: nil } }
 
-  before { login_as(user, scope: :user) }
-
   describe "GET /edit" do
-    it "render a successful response" do
-      homework = FactoryBot.create(:homework)
-      get edit_subject_course_homework_url(subject, course, homework)
-      expect(response).to be_successful
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        homework = FactoryBot.create(:homework)
+        get edit_subject_course_homework_url(subject, course, homework)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in" do
+      it "render a successful response" do
+        sign_in user
+        homework = FactoryBot.create(:homework)
+        get edit_subject_course_homework_url(subject, course, homework)
+        expect(response).to be_successful
+      end
     end
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in with valid parameters" do
       it "creates a new Homework" do
+        sign_in user
         expect do
           post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
         end.to change(Homework, :count).by(1)
       end
 
       it "redirects to the course page" do
+        sign_in user
         post subject_course_homeworks_url(subject, course), params: { homework: valid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
     end
 
-    context "with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "does not create a new Homework" do
+        sign_in user
         expect do
           post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
         end.to change(Homework, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the course page)" do
+        sign_in user
         post subject_course_homeworks_url(subject, course), params: { homework: invalid_attributes }
         expect(response).to redirect_to(subject_course_url(subject, course))
       end
@@ -63,12 +83,21 @@ RSpec.describe "/homeworks", type: :request do
   end
 
   describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) do
-        { entry: "new homework entry", due_at: DateTime.new(2022, 0o1, 3.5) }
-      end
+    let(:new_attributes) do
+      { entry: "new homework entry", due_at: DateTime.new(2022, 0o1, 3.5), course: course }
+    end
 
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        homework = FactoryBot.create(:homework)
+        patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in with valid parameters" do
       it "updates the requested homework" do
+        sign_in user
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
@@ -77,6 +106,7 @@ RSpec.describe "/homeworks", type: :request do
       end
 
       it "redirects to the course page" do
+        sign_in user
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: new_attributes }
         homework.reload
@@ -84,8 +114,9 @@ RSpec.describe "/homeworks", type: :request do
       end
     end
 
-    context "with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
+        sign_in user
         homework = FactoryBot.create(:homework)
         patch subject_course_homework_url(subject, course, homework), params: { homework: invalid_attributes }
         expect(response).to be_successful
@@ -94,17 +125,29 @@ RSpec.describe "/homeworks", type: :request do
   end
 
   describe "DELETE /destroy" do
-    it "destroys the requested homework" do
-      homework = FactoryBot.create(:homework)
-      expect do
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        homework = FactoryBot.create(:homework)
         delete subject_course_homework_url(subject, course, homework)
-      end.to change(Homework, :count).by(-1)
+        expect(response).to redirect_to("/users/sign_in")
+      end
     end
 
-    it "redirects to the homeworks list" do
-      homework = FactoryBot.create(:homework)
-      delete subject_course_homework_url(subject, course, homework)
-      expect(response).to redirect_to(subject_course_url(subject, course))
+    context "when logged in" do
+      it "destroys the requested homework" do
+        sign_in user
+        homework = FactoryBot.create(:homework)
+        expect do
+          delete subject_course_homework_url(subject, course, homework)
+        end.to change(Homework, :count).by(-1)
+      end
+
+      it "redirects to the homeworks list" do
+        sign_in user
+        homework = FactoryBot.create(:homework)
+        delete subject_course_homework_url(subject, course, homework)
+        expect(response).to redirect_to(subject_course_url(subject, course))
+      end
     end
   end
 end

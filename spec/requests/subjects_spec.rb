@@ -22,54 +22,96 @@ RSpec.describe "/subjects", type: :request do
   let(:valid_attributes) { { name: "Biology" } }
   let(:invalid_attributes) { { name: nil } }
 
-  before { login_as(user, scope: :user) }
-
   describe "GET /index" do
-    it "renders a successful response" do
-      FactoryBot.create(:subject)
-      get subjects_url
-      expect(response).to be_successful
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        FactoryBot.create(:subject)
+        get subjects_url
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in" do
+      it "renders a successful response" do
+        sign_in user
+        FactoryBot.create(:subject)
+        get subjects_url
+        expect(response).to be_successful
+      end
     end
   end
 
   describe "GET /show" do
-    it "renders a successful response" do
-      subject = FactoryBot.create(:subject)
-      get subject_url(subject)
-      expect(response).to be_successful
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        subject = FactoryBot.create(:subject)
+        get subject_url(subject)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in" do
+      it "renders a successful response" do
+        sign_in user
+        subject = FactoryBot.create(:subject)
+        get subject_url(subject)
+        expect(response).to be_successful
+      end
     end
   end
 
   describe "GET /edit" do
-    it "render a successful response" do
-      subject = FactoryBot.create(:subject)
-      get edit_subject_url(subject)
-      expect(response).to be_successful
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        subject = FactoryBot.create(:subject)
+        get edit_subject_url(subject)
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in" do
+      it "render a successful response" do
+        sign_in user
+        subject = FactoryBot.create(:subject)
+        get edit_subject_url(subject)
+        expect(response).to be_successful
+      end
     end
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        post subjects_url, params: { subject: valid_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in with valid parameters" do
       it "creates a new Subject" do
+        sign_in user
         expect do
           post subjects_url, params: { subject: valid_attributes }
         end.to change(Subject, :count).by(1)
       end
 
       it "redirects to the created subject" do
+        sign_in user
         post subjects_url, params: { subject: valid_attributes }
         expect(response).to redirect_to(subject_url(Subject.last))
       end
     end
 
-    context "with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "does not create a new Subject" do
+        sign_in user
         expect do
           post subjects_url, params: { subject: invalid_attributes }
         end.to change(Subject, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the subjects template)" do
+        sign_in user
         post subjects_url, params: { subject: invalid_attributes }
         expect(response).to redirect_to(subjects_url)
       end
@@ -77,12 +119,21 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) do
-        { name: "new subject name" }
-      end
+    let(:new_attributes) do
+      { name: "new subject name" }
+    end
 
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        subject = FactoryBot.create(:subject)
+        patch subject_url(subject), params: { subject: new_attributes }
+        expect(response).to redirect_to("/users/sign_in")
+      end
+    end
+
+    context "when logged in with valid parameters" do
       it "updates the requested subject" do
+        sign_in user
         subject = FactoryBot.create(:subject)
         patch subject_url(subject), params: { subject: new_attributes }
         subject.reload
@@ -90,6 +141,7 @@ RSpec.describe "/subjects", type: :request do
       end
 
       it "redirects to the subject" do
+        sign_in user
         subject = FactoryBot.create(:subject)
         patch subject_url(subject), params: { subject: new_attributes }
         subject.reload
@@ -97,8 +149,9 @@ RSpec.describe "/subjects", type: :request do
       end
     end
 
-    context "with invalid parameters" do
+    context "when logged in with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
+        sign_in user
         subject = FactoryBot.create(:subject)
         patch subject_url(subject), params: { subject: invalid_attributes }
         expect(response).to be_successful
@@ -107,17 +160,29 @@ RSpec.describe "/subjects", type: :request do
   end
 
   describe "DELETE /destroy" do
-    it "destroys the requested subject" do
-      subject = FactoryBot.create(:subject)
-      expect do
+    context "when not logged in" do
+      it "redirects to users/sign_in page" do
+        subject = FactoryBot.create(:subject)
         delete subject_url(subject)
-      end.to change(Subject, :count).by(-1)
+        expect(response).to redirect_to("/users/sign_in")
+      end
     end
 
-    it "redirects to the subjects list" do
-      subject = FactoryBot.create(:subject)
-      delete subject_url(subject)
-      expect(response).to redirect_to(subjects_url)
+    context "when logged in" do
+      it "destroys the requested subject" do
+        sign_in user
+        subject = FactoryBot.create(:subject)
+        expect do
+          delete subject_url(subject)
+        end.to change(Subject, :count).by(-1)
+      end
+
+      it "redirects to the subjects list" do
+        sign_in user
+        subject = FactoryBot.create(:subject)
+        delete subject_url(subject)
+        expect(response).to redirect_to(subjects_url)
+      end
     end
   end
 end

@@ -43,3 +43,4 @@ Layout/IndentationConsistency:
 
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
+  

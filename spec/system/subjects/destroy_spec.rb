@@ -6,7 +6,7 @@ RSpec.describe "destroy subject", js: true, type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:subject) { FactoryBot.create(:subject, user: user) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   describe "accept alert" do
     it "destroys subject" do

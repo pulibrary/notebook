@@ -8,7 +8,7 @@ RSpec.describe "destroy homework", js: true, type: :system do
   let(:course) { FactoryBot.create(:course, subject: subject) }
   let(:homework) { FactoryBot.create(:homework, course: course) }
 
-  before { login_as(user, scope: :user) }
+  before { sign_in user }
 
   describe "accept alert" do
     it "destroys homework" do
